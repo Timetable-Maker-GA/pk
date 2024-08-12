@@ -35,41 +35,42 @@ import com.example.ttmaker.components.saveInstituteList
 @Composable
 fun MainPageContent() {
 
-
     var selectedTab by rememberSaveable { mutableStateOf(0) }
-
     val context = LocalContext.current
     var givenInstitute by remember { mutableStateOf<Institute?>(null) }
-
-    val instituteList = remember { mutableStateListOf<Institute>().apply { addAll(loadInstituteList(context)) } }
+    val instituteList =
+        remember { mutableStateListOf<Institute>().apply { addAll(loadInstituteList(context)) } }
 
     fun addInstitute(newInstitute: Institute) {
         instituteList.add(newInstitute)
         saveInstituteList(context, instituteList)
     }
+
     val lifecycleOwner = LocalLifecycleOwner.current
     val nousevar = false
     // Handle back button press
     BackHandler {
         when (selectedTab) {
             1, 2 -> {
-                // If on tab 1 or 2, navigate back to tab 0
                 selectedTab = 0
             }
+
             0 -> {
-                // If on tab 0, exit the app
                 (context as? Activity)?.finish()
             }
         }
     }
-    Column(modifier = Modifier.fillMaxSize()
+    Column(
+        modifier = Modifier.fillMaxSize()
 //        .background(Color.Red)
     ) {
         TopAppBar(
             title = {
                 Text(
                     text = "Genetic Timetable",
-                    modifier = Modifier.clickable { selectedTab = 0 }, // Navigate to the landing page on click
+                    modifier = Modifier.clickable {
+                        selectedTab = 0
+                    }, // Navigate to the landing page on click
                     color = Color.White // White font color
                 )
             },
@@ -80,20 +81,29 @@ fun MainPageContent() {
             ),
         )
         TabRow(
-            selectedTabIndex = selectedTab,
-            modifier = Modifier.padding(0.dp)
-        ) {
-        }
+            selectedTabIndex = selectedTab, modifier = Modifier.padding(0.dp)
+        ) {}
 
         when (selectedTab) {
-            0 -> Landing(instituteList, toInstituteCreationPage = { selectedTab = 1 },
+            0 -> Landing(instituteList,
+                toInstituteCreationPage = { selectedTab = 1 },
                 toTimetableCreationPage = { selectedTab = 2 },
                 toTimetableCreationPageWithInstitute = {
                     selectedTab = 2
                     givenInstitute = it
                 })
-            1 -> CreateInstitute(instituteList, toLandingPage = { selectedTab = 0 }, onAddInstitute = {e-> addInstitute(e)}, toTimetableCreationPage = { selectedTab = 2 })
-            2 -> TimetableCreationPage(instituteList, toLandingPage = {selectedTab = 0}, givenInstitute)
+
+            1 -> CreateInstitute(
+                instituteList,
+                toLandingPage = { selectedTab = 0 },
+                onAddInstitute = { e -> addInstitute(e) },
+                toTimetableCreationPage = { selectedTab = 2 })
+
+            2 -> TimetableCreationPage(
+                instituteList,
+                toLandingPage = { selectedTab = 0 },
+                givenInstitute
+            )
         }
     }
 }

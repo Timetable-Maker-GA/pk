@@ -29,7 +29,6 @@ import com.ntech.ttmaker.R
 
 import com.example.ttmaker.classes.Institute
 import com.example.ttmaker.classes.Timetable
-import com.example.ttmaker.ui.theme.FontSizes
 
 @Composable
 fun TimetableCard(
@@ -51,7 +50,7 @@ fun TimetableCard(
         ) {
             Text(
                 text = "Class: ${timetable.className} - ${timetable.section}",
-                fontSize = FontSizes.subtitle,
+
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(2.dp))
@@ -62,7 +61,7 @@ fun TimetableCard(
 //            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = institute.name,
-                fontSize = FontSizes.body,
+
                 color = Color.Gray
             )
         }
@@ -97,7 +96,7 @@ fun TimetableList(
         ){
 
             Text(
-                color = Color.Gray, text = "Time tables", fontSize = FontSizes.caption
+                color = Color.Gray, text = "Time tables", 
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -105,7 +104,7 @@ fun TimetableList(
             {
 
             Text(
-                color = colorResource(id = R.color.textLightBluePale), text = "scroll", fontSize = FontSizes.caption
+                color = colorResource(id = R.color.textLightBluePale), text = "scroll", 
             )
             Icon(
                 imageVector = Icons.Default.ArrowDropDown, // Use an appropriate icon

@@ -34,7 +34,6 @@ import com.ntech.ttmaker.R
 
 import com.example.ttmaker.components.landingpage.InstituteList
 import com.example.ttmaker.components.landingpage.TimetableList
-import com.example.ttmaker.ui.theme.FontSizes
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBalance
@@ -80,7 +79,6 @@ fun Landing(instituteList: List<Institute>,
                 Text(
                     text = "+",
                     color = Color.White,
-                    fontSize = FontSizes.subtitle, // Make the "+" sign bigger
                     modifier = Modifier.padding(horizontal = 8.dp),
                     fontWeight = FontWeight.ExtraBold
 
@@ -88,7 +86,7 @@ fun Landing(instituteList: List<Institute>,
                 Text(
                     text = "ADD",
                     color = Color.White,
-                    fontSize = FontSizes.body,
+                    
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(end = 8.dp),
 

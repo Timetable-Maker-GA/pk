@@ -59,7 +59,6 @@ import com.example.ttmaker.adsContainer.InterstitialAdContainerPDF
 import com.example.ttmaker.classes.Institute
 import com.example.ttmaker.components.DisplayTimetables
 import com.example.ttmaker.components.updateInstitute
-import com.example.ttmaker.ui.theme.FontSizes
 import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
@@ -150,7 +149,7 @@ fun TimetableCreationPage(
 
                 Text(
                     text = "Select Institute",
-                    fontSize = FontSizes.body,
+                    
                     modifier = Modifier.padding(top = 4.dp)
                 )
                 Box {
@@ -161,7 +160,7 @@ fun TimetableCreationPage(
                             .clickable { expanded = true }
                             .background(Color.LightGray)
                             .padding(16.dp),
-                        fontSize = FontSizes.body,
+                        
                     )
                     DropdownMenu(
                         expanded = expanded,
@@ -173,7 +172,6 @@ fun TimetableCreationPage(
                                 text = {
                                     Text(
                                         institute.name,
-                                        fontSize = FontSizes.body
                                     )
                                 },
                                 onClick = {
@@ -200,7 +198,7 @@ fun TimetableCreationPage(
                         label = {
                             Text(
                                 "Class No",
-                                fontSize = FontSizes.body,
+                                
                             )
                         },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -216,7 +214,7 @@ fun TimetableCreationPage(
                         label = {
                             Text(
                                 "Section",
-                                fontSize = FontSizes.body,
+                                
                             )
                         },
                         modifier = Modifier
@@ -244,7 +242,7 @@ fun TimetableCreationPage(
                                 .padding(end = 8.dp),
                             text =
                             "Complexity Non Linear: ${level.toInt()}",
-                            fontSize = FontSizes.body,
+                            
                             fontWeight = FontWeight.Bold
                         )
                         Text(
@@ -252,7 +250,6 @@ fun TimetableCreationPage(
                                 .padding(end = 8.dp),
                             text =
                             "(200 = 2min & 600 = 18min)",
-                            fontSize = FontSizes.body
                         )
                     }
                     Slider(
@@ -308,7 +305,7 @@ fun TimetableCreationPage(
                 Text(
                     text = "Subjects - Periods per Week : $periodsGiven / ${((selectedInstitute?.HOURS ?: 0) * (selectedInstitute?.DAYS ?: 0)).toString()}",
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        fontSize = FontSizes.body,
+                        
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.secondary,
                         textAlign = TextAlign.Center
@@ -324,7 +321,7 @@ fun TimetableCreationPage(
 
                 if (isNull(selectedInstitute)) Text(
                     text = "Select Institute First!!!",
-                    fontSize = FontSizes.body,
+                    
                 )
 
                 selectedInstitute?.let {
@@ -788,7 +785,7 @@ fun LoadingScreen(gen: Int, level: Int) {
 //            )
 //            Text(
 //                text = "Notes:",
-//                fontSize = FontSizes.body,
+//                
 //                textAlign = TextAlign.Center,
 //                color = Color.Gray,
 //                modifier = Modifier.padding(bottom = 4.dp)
@@ -797,21 +794,21 @@ fun LoadingScreen(gen: Int, level: Int) {
 //                text = "Algo complexity: Higher the value = More Time = Better Timetable",
 //                textAlign = TextAlign.Center,
 //                color = Color.Gray,
-//                fontSize = FontSizes.body,
+//                
 //                modifier = Modifier.padding(bottom = 4.dp),
 //            )
 //            Text(
 //                text = "As your timetable number grows try increase the algo complexity to get better non-overlapping teachers timetable",
 //                textAlign = TextAlign.Center,
 //                color = Color.Gray,
-//                fontSize = FontSizes.body,
+//                
 //                modifier = Modifier.padding(bottom = 4.dp),
 //            )
 //            Text(
 //                text = "Download and edit the Excel sheet for a Perfect Timetable",
 //                textAlign = TextAlign.Center,
 //                color = Color.Gray,
-//                fontSize = FontSizes.body,
+//                
 //                modifier = Modifier.padding(bottom = 4.dp),
 //            )
 //
@@ -819,7 +816,7 @@ fun LoadingScreen(gen: Int, level: Int) {
 //                text = "Keep a copy of Institue input text in whatsapp / notes to reuse it in future",
 //                textAlign = TextAlign.Center,
 //                color = Color.Gray,
-//                fontSize = FontSizes.body,
+//                
 //                modifier = Modifier.padding(bottom = 16.dp),
 //            )
 //        }
@@ -871,7 +868,7 @@ fun SubjectSelection(
         Column {
             Text(
                 text = "No Valid Classname given",
-                fontSize = FontSizes.subtitle,
+
             )
         }
     } else {
@@ -886,7 +883,7 @@ fun SubjectSelection(
                 ) {
                     Text(
                         text = subject,
-                        fontSize = FontSizes.body,
+                        
                         modifier = Modifier.weight(1f)
                     )
                     OutlinedTextField(
@@ -903,7 +900,7 @@ fun SubjectSelection(
                         label = {
                             Text(
                                 "Periods/Week",
-                                fontSize = FontSizes.body,
+                                
                             )
                         },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

@@ -34,7 +34,6 @@ import com.ntech.ttmaker.R
 //import com.example.ttmaker.R
 
 import com.example.ttmaker.classes.Institute
-import com.example.ttmaker.ui.theme.FontSizes
 
 
 @Composable
@@ -51,7 +50,6 @@ fun InfoCard(institute: Institute) {
 
                 Text(
                     text = "${institute.allTimetables.size}",
-                    fontSize = FontSizes.headline,
                     fontWeight = FontWeight.ExtraBold
                 )
                 Text(
@@ -59,7 +57,7 @@ fun InfoCard(institute: Institute) {
                         .padding(start = 6.dp),
                     text = "time tables",
                     //                style = MaterialTheme.typography.body
-                    fontSize = FontSizes.caption,
+                   
                     color = colorResource(id = R.color.textLightGrayPale)
                 )
             }
@@ -67,14 +65,13 @@ fun InfoCard(institute: Institute) {
 //            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = institute.name,
-                fontSize = FontSizes.title
+                
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Subjects: ${institute.subjects.size} | " +
                         "Teachers: ${institute.teachers.size}",
                 color = colorResource(id = R.color.textLightGrayPale),
-                fontSize =  FontSizes.caption
             )
 //            Text(
 //                text = "Teachers: ${institute.teachers.size}",
@@ -143,7 +140,7 @@ fun InstituteList(
         ){
 
             Text(
-                color = Color.Gray, text = "Institutes", fontSize = FontSizes.caption
+                color = Color.Gray, text = "Institutes", 
             )
 
             Row(
@@ -153,7 +150,7 @@ fun InstituteList(
                 Text(
                     color = colorResource(id = R.color.textLightBluePale),
                     text = "Swipe ",
-                    fontSize = FontSizes.caption
+                    
                 )
                 Icon(
                     imageVector = Icons.Default.ArrowForward, // Use an appropriate icon

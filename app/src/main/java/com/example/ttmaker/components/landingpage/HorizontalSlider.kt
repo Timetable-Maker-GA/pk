@@ -21,7 +21,6 @@ import com.ntech.ttmaker.R
 //import com.example.ttmaker.R
 
 import com.example.ttmaker.classes.types.Slide
-import com.example.ttmaker.ui.theme.FontSizes
 import com.google.accompanist.pager.*
 //import kotlinx.coroutines.DefaultExecutor.delay
 import kotlinx.coroutines.delay
@@ -46,14 +45,13 @@ fun SlideView(slide: Slide) {
         ) {
             Text(
                 text = slide.title,
-                fontSize = FontSizes.body,
+               
                 fontWeight = FontWeight.Bold,
                 color = colorResource(id = R.color.textLightGrayPale)
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = slide.description,
-                fontSize = FontSizes.subtitle
             )
         }
     }

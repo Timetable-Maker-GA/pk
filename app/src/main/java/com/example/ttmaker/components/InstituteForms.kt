@@ -41,7 +41,6 @@ import com.ntech.ttmaker.R
 
 import com.example.ttmaker.classes.Institute
 import com.example.ttmaker.classes.types.TeacherInfo
-import com.example.ttmaker.ui.theme.FontSizes
 import java.util.UUID
 
 @Composable
@@ -83,7 +82,6 @@ fun Format() {
             """.trimIndent(),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray,
-                    fontSize = FontSizes.caption,
                     modifier = Modifier
                         .background(colorResource(id = R.color.bgLight))
                         .padding(8.dp)
@@ -126,7 +124,6 @@ fun Format() {
             """.trimIndent(),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray,
-                    fontSize = FontSizes.caption,
                     modifier = Modifier
                         .background(colorResource(id = R.color.bgLight))
                         .padding(8.dp)
@@ -303,7 +300,7 @@ fun Form(
     ) {
         Text(
             text = "Institute Details",
-            fontSize = FontSizes.body,
+
 //                color = colorResource(id = R.color.textLightGrayPale)
             modifier = Modifier.padding(top = 4.dp)
         )
@@ -317,7 +314,7 @@ fun Form(
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
-                label = { Text("Name", fontSize = FontSizes.body) },
+                label = { Text("Name",) },
                 modifier = Modifier
                     .weight(1f) // Make each field take equal space
 //                        .padding(vertical = 4.dp) // Add vertical padding for spacing
@@ -327,7 +324,7 @@ fun Form(
             OutlinedTextField(
                 value = days,
                 onValueChange = { days = it },
-                label = { Text("Days", fontSize = FontSizes.body) },
+                label = { Text("Days",) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier
                     .weight(1f) // Make each field take equal space
@@ -338,7 +335,7 @@ fun Form(
             OutlinedTextField(
                 value = hours,
                 onValueChange = { hours = it },
-                label = { Text("Hours", fontSize = FontSizes.body) },
+                label = { Text("Hours",) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier
                     .weight(1f) // Make each field take equal space
@@ -350,7 +347,7 @@ fun Form(
         // Step 2: Subjects
         Text(
             text = "Subjects",
-            fontSize = FontSizes.body,
+
 //                color = colorResource(id = R.color.textLightGrayPale)
             modifier = Modifier.padding(top = 8.dp)
 
@@ -359,14 +356,14 @@ fun Form(
         OutlinedTextField(
             value = subjects,
             onValueChange = { subjects = it },
-            label = { Text("Subjects (comma separated)", fontSize = FontSizes.body) },
+            label = { Text("Subjects (comma separated)",) },
 //                modifier = Modifier.padding(vertical = 4.dp)
         )
 
         // Step 3: Teachers' Subject & Class Level
         Text(
             text = "Teachers' Subject & Class Level",
-            fontSize = FontSizes.body,
+
 //                color = colorResource(id = R.color.textLightGrayPale),
             modifier = Modifier.padding(top = 8.dp)
         )
@@ -375,7 +372,7 @@ fun Form(
         OutlinedTextField(
             value = teacherName,
             onValueChange = { teacherName = it },
-            label = { Text("Teacher's Name", fontSize = FontSizes.body) },
+            label = { Text("Teacher's Name",) },
 //                modifier = Modifier.padding(vertical = 4.dp)
         )
 
@@ -384,7 +381,7 @@ fun Form(
         OutlinedTextField(
             value = sub,
             onValueChange = { sub = it },
-            label = { Text("e.g: Bio,Chem,Maths", fontSize = FontSizes.body) },
+            label = { Text("e.g: Bio,Chem,Maths",) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -392,7 +389,7 @@ fun Form(
         OutlinedTextField(
             value = classes,
             onValueChange = { classes = it },
-            label = { Text("e.g: 5-5,6-9,9-12", fontSize = FontSizes.body) },
+            label = { Text("e.g: 5-5,6-9,9-12",) },
             modifier = Modifier.fillMaxWidth()
         )
 
