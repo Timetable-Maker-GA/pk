@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+
+    id("com.google.devtools.ksp") version "1.9.10-1.0.13"
 }
 
 android {
@@ -99,18 +101,30 @@ dependencies {
     implementation("com.itextpdf:itext7-core:7.1.15")
 
     //excel
-//        implementation("org.apache.poi:poi:5.2.3") // For Excel (XLS)
-//        implementation("org.apache.poi:poi-ooxml:5.2.3") // For Excel (XLSX)
-//        implementation("org.apache.xmlbeans:xmlbeans:5.1.1") // Required for Apache POI
-//        implementation("org.apache.poi:poi-ooxml-schemas:4.1.2") // Optional, for Excel (XLSX) support
-        // Apache POI dependencies
-        implementation("org.apache.poi:poi:5.2.3") // For Excel (XLS)
-        implementation("org.apache.poi:poi-ooxml:5.2.3") // For Excel (XLSX)
-        implementation("org.apache.xmlbeans:xmlbeans:5.1.1") // Required for Apache POI
+    implementation("org.apache.poi:poi:5.2.3") // For Excel (XLS)
+    implementation("org.apache.poi:poi-ooxml:5.2.3") // For Excel (XLSX)
+    implementation("org.apache.xmlbeans:xmlbeans:5.1.1") // Required for Apache POI
 
 
     //admob
-
     implementation("com.google.android.gms:play-services-ads:23.2.0")
 
+    // Room components
+    implementation("androidx.room:room-runtime:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+
+    //viewmodel
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
+
+    implementation("androidx.activity:activity-compose:1.9.1")
+
+    implementation("androidx.compose.ui:ui:1.6.8")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.6.8")
+    implementation("androidx.compose.material:material:1.6.8")
+    implementation("androidx.compose.ui:ui-util:1.6.8")
 }

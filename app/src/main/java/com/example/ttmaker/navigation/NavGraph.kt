@@ -12,7 +12,7 @@ import com.example.ttmaker.presentation.OnboardingScreen
 @Composable
 fun NavGraph() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "home_screen") {
+    NavHost(navController = navController, startDestination = "add_school_screen") {
         composable(route = "onboarding") {
             OnboardingScreen(navController)
         }

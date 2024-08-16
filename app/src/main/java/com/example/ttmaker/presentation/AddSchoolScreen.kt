@@ -10,14 +10,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,13 +28,87 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.compose.backgroundLight
 import com.example.ttmaker.ManropeFontFamily
 import com.example.ttmaker.domain.enums.SchoolClass
 import com.example.ttmaker.domain.models.School
 import com.example.ttmaker.domain.models.Subject
 import com.example.ttmaker.domain.models.Teacher
 import com.example.ttmaker.presentation.components.TabControls
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ttmaker.data.SchoolDatabase
+import com.example.ttmaker.data.SchoolEntity
+import com.example.ttmaker.data.SchoolRepository
+import com.example.ttmaker.domain.SchoolViewModel
+import com.example.ttmaker.domain.SchoolViewModelFactory
+import kotlinx.coroutines.launch
+
+@Composable
+fun Form(
+    modifier: Modifier
+) {
+    // Initialize repository and ViewModel
+    val context = LocalContext.current
+    val repository = remember {
+        SchoolRepository(SchoolDatabase.getInstance(context).schoolDao())
+    }
+    val schoolViewModel: SchoolViewModel = viewModel(factory = SchoolViewModelFactory(repository))
+
+
+
+    val scope = rememberCoroutineScope()
+    Column(modifier = Modifier.padding(16.dp)) {
+        TextField(
+            value = schoolViewModel.schoolName.value,
+            onValueChange = { schoolViewModel.onSchoolNameChange(it) },
+            label = { Text("School Name") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        TextField(
+            value = schoolViewModel.periodsPerDay.value.toString(),
+            onValueChange = { schoolViewModel.onPeriodsPerDayChange(it.toIntOrNull() ?: 0) },
+            label = { Text("Periods Per Day") },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = {
+            scope.launch {
+                schoolViewModel.insertSchool()
+                schoolViewModel.fetchSchools()
+            }
+        }) {
+            Text("Submit")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Display the list of schools
+        LazyColumn {
+            items(schoolViewModel.schools.value, key = { it.id }) { school ->
+                Text(text = "${school.name} - ${school.periodsPerDay} periods")
+            }
+        }
+    }
+
+    // Fetch schools when the composable is first launched
+    LaunchedEffect(Unit) {
+        schoolViewModel.fetchSchools()
+    }
+
+
+}
 
 @Composable
 fun AddSchoolScreen(
@@ -45,10 +117,12 @@ fun AddSchoolScreen(
     Scaffold(
         containerColor = Color(0xFFF2F3F4)
     ) { innerPadding ->
-        TextTabs(navController = navController, modifier = Modifier.padding(innerPadding))
+        Form(modifier = Modifier.padding(innerPadding))
+//        TextTabs(navController = navController, modifier = Modifier.padding(innerPadding))
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextTabs(
     navController: NavHostController, modifier: Modifier
@@ -167,7 +241,7 @@ fun BasicInfoTab() {
             label = {
                 Text(text = "School Name")
             },
-            colors = TextFieldDefaults.colors(HB24jNIUh487HU
+            colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = Color.White,
                 focusedContainerColor = Color.White,
                 focusedLabelColor = Color.Black,
