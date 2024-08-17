@@ -52,7 +52,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import com.ntech.ttmaker.MainActivity
+import com.example.ttmaker.MainActivity
 //import com.example.ttmakerpk.R
 import com.example.ttmaker.adsContainer.InterstitialAdContainerEXCEL
 import com.example.ttmaker.adsContainer.InterstitialAdContainerPDF

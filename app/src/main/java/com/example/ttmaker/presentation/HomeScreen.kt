@@ -30,10 +30,7 @@ fun HomeScreen(
             modifier = Modifier.padding(innerPadding)
         ) {
             Header(profileImage = R.drawable.profile)
-            CreatedTTList()
         }
-
-
     }
 }
 
