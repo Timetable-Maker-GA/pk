@@ -1,4 +1,4 @@
-package com.example.ttmaker.presentation
+package com.example.ttmaker.presentation.onBoarding
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button

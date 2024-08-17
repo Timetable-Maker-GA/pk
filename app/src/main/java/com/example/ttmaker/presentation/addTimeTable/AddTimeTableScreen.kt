@@ -1,4 +1,4 @@
-package com.example.ttmaker.presentation
+package com.example.ttmaker.presentation.addTimeTable
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController

@@ -1,4 +1,4 @@
-package com.example.ttmaker.domain
+package com.example.ttmaker.presentation.addSchool
 
 
 import androidx.compose.runtime.mutableStateOf

@@ -1,4 +1,4 @@
-package com.example.ttmaker.presentation.components
+package com.example.ttmaker.presentation.homeScreen.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

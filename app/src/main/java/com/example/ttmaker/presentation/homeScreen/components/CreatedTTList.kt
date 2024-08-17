@@ -1,4 +1,4 @@
-package com.example.ttmaker.presentation.components
+package com.example.ttmaker.presentation.homeScreen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ttmaker.domain.models.TimeTableCard
 import com.example.ttmaker.ManropeFontFamily
+import com.example.ttmaker.presentation.components.Createttcard
 
 @Composable
 fun CreatedTTList() {

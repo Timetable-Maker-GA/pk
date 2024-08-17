@@ -1,4 +1,4 @@
-package com.example.ttmaker.presentation
+package com.example.ttmaker.presentation.homeScreen
 
 import Header
 import androidx.compose.foundation.layout.Column
@@ -9,8 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
-import com.example.ttmaker.presentation.components.CreatedTTList
-import com.example.ttmaker.presentation.components.HomeControls
+import com.example.ttmaker.presentation.homeScreen.components.CreatedTTList
+import com.example.ttmaker.presentation.homeScreen.components.HomeControls
 import com.ntech.ttmaker.R
 
 @Composable
