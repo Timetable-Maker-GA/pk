@@ -3,57 +3,33 @@
 package com.example.ttmaker.presentation
 
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import android.util.Log
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.TimeInput
-import androidx.compose.material3.TimePickerDefaults
-import androidx.compose.material3.TimePickerState
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
 import com.example.ttmaker.ManropeFontFamily
-import com.example.ttmaker.domain.enums.SchoolClass
-import com.example.ttmaker.domain.models.School
-import com.example.ttmaker.domain.models.Subject
-import com.example.ttmaker.domain.models.Teacher
-import com.example.ttmaker.presentation.components.TextTabs
-import com.example.ui.theme.manrope
+import com.example.ttmaker.presentation.addSchool.components.AddSchedule
+import com.example.ttmaker.presentation.addSchool.components.BasicInfoForm
+import com.example.ttmaker.presentation.shared.TabControls
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddSchoolScreen(
     navController: NavHostController
@@ -61,303 +37,48 @@ fun AddSchoolScreen(
     Scaffold(
         containerColor = Color(0xFFF2F3F4),
     ) { innerPadding ->
-        TextTabs(navController = navController, modifier = Modifier.padding(innerPadding))
-    }
-}
-
-
-@Composable
-fun BasicInfoForm() {
-
-    val schoolData = remember {
-        mutableStateOf(
-            School(
-                id = 1,
-                name = "",
-                address = "",
-                session = sessionList[0],
-                classes = listOf<SchoolClass>(),
-                subjects = listOf<Subject>(),
-                teachers = listOf<Teacher>()
-            )
-        )
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-    ) {
-        Text(
-            text = "School Name",
-            style = MaterialTheme.typography.titleMedium,
-            color = Color.Black,
-            fontFamily = manrope
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        TextField(
-            value = schoolData.value.name,
-            onValueChange = { schoolData.value = schoolData.value.copy(name = it) },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            textStyle = TextStyle.Default.copy(
-                fontSize = 20.sp, fontFamily = manrope, fontWeight = FontWeight.Normal
-            ),
-            colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = Color.White,
-                focusedContainerColor = Color.White,
-                focusedLabelColor = Color.Black,
-                unfocusedLabelColor = Color.Black,
-                errorContainerColor = Color.Red,
-                errorLabelColor = Color.Red,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-            ),
-            maxLines = 1,
-
-
-            )
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = "School Address",
-            style = MaterialTheme.typography.titleMedium,
-            color = Color.Black,
-            fontFamily = manrope
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        TextField(
-            value = schoolData.value.address,
-            onValueChange = { schoolData.value = schoolData.value.copy(address = it) },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            textStyle = TextStyle.Default.copy(
-                fontSize = 20.sp, fontFamily = manrope, fontWeight = FontWeight.Normal
-            ),
-            colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = Color.White,
-                focusedContainerColor = Color.White,
-                focusedLabelColor = Color.Black,
-                unfocusedLabelColor = Color.Black,
-                errorContainerColor = Color.Red,
-                errorLabelColor = Color.Red,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-            ),
-            maxLines = 1,
-
-
-            )
-        Spacer(modifier = Modifier.height(16.dp))
-        var expanded by remember { mutableStateOf(false) }
-        val scrollState = rememberScrollState()
-        Text(
-            text = "Academic Year",
-            style = MaterialTheme.typography.titleMedium,
-            color = Color.Black,
-            fontFamily = manrope
-        )
-
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .fillMaxWidth()
-                .wrapContentSize(Alignment.TopStart)
-                .clip(RoundedCornerShape(16.dp))
-
-        ) {
-
-            Text(text = schoolData.value.session,
-                modifier = Modifier
-                    .clickable { expanded = true }
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(Color.White)
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                fontSize = 16.sp,
-                fontFamily = ManropeFontFamily,
-                color = Color.Black)
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                scrollState = scrollState,
-                modifier = Modifier
-                    .clip(
-                        RoundedCornerShape(16.dp)
-                    )
-                    .background(Color.White),
-
-                ) {
-                sessionList.forEach { it ->
-                    DropdownMenuItem(text = {
+        var state by remember { mutableIntStateOf(0) }
+        val titles = listOf("Basic Info", "Add Schedule ")
+        Column {
+            PrimaryTabRow(
+                selectedTabIndex = state,
+                contentColor = Color.Blue,
+                containerColor = Color.Transparent,
+                modifier = Modifier.padding(innerPadding)
+            ) {
+                titles.forEachIndexed { index, title ->
+                    Tab(selected = state == index, onClick = { state = index }, text = {
                         Text(
-                            text = it,
-                            style = MaterialTheme.typography.titleMedium,
-                            color = Color.Black,
-                            fontFamily = manrope
+                            text = title,
+                            maxLines = 2,
+                            fontFamily = ManropeFontFamily,
+                            fontWeight = FontWeight.Medium,
+                            overflow = TextOverflow.Ellipsis,
+                            color = Color.Black
                         )
-                    }, onClick = {
-                        schoolData.value = schoolData.value.copy(session = it)
-                        expanded = false
                     })
                 }
-
             }
-            LaunchedEffect(expanded) {
-                if (expanded) {
-                    scrollState.scrollTo(scrollState.maxValue)
+            Surface(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
+                contentColor = Color.Transparent,
+                color = Color.Transparent
+            ) {
+                when (state) {
+                    0 -> BasicInfoForm()
+                    1 -> AddSchedule()
                 }
             }
-        }
-
-
-    }
-}
-
-
-data class Schedule(
-    var schoolStartTime: TimePickerState? = null,
-    var schoolEndTime: TimePickerState? = null,
-    var lunchStartTime: TimePickerState? = null,
-    var lunchEndTime: TimePickerState? = null,
-    var lessonDuration: Int
-)
-
-@ExperimentalMaterial3Api
-@Composable
-fun AddSchedule() {
-
-    var schedule by remember {
-        mutableStateOf(
-            Schedule(
-                schoolStartTime = null,
-                schoolEndTime = null,
-                lunchStartTime = null,
-                lunchEndTime = null,
-                lessonDuration = 15,
-            )
-        )
-    }
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                text = "School Start Time",
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                fontFamily = manrope
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            PickTime(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Column(
-            modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                text = "School End Time",
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                fontFamily = manrope
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            PickTime(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        Column(
-            modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                text = "Lunch Start Time",
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                fontFamily = manrope
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            PickTime(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Column(
-            modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.Start
-        ) {
-            Text(
-                text = "Lunch End Time",
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                fontFamily = manrope
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            PickTime(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-            )
+            TabControls(state, setState = { v ->
+                Log.d("TabControls", "s${v}")
+                state = (v)
+            })
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PickTime(
-    modifier: Modifier = Modifier,
-
-    ) {
-
-    val myState = rememberTimePickerState(0, 0)
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .background(Color.White)
-            .padding(16.dp)
-    ) {
-        TimeInput(
-            state = myState,
-            modifier = Modifier.scale(1f),
-            colors = TimePickerDefaults.colors().copy(
-                containerColor = Color.White,
-                timeSelectorSelectedContainerColor = Color(0xFFdbeafe),
-                timeSelectorUnselectedContainerColor = Color.White,
-                periodSelectorSelectedContainerColor = Color(0xFFdbeafe),
-                periodSelectorUnselectedContainerColor = Color.White,
-
-                )
-        )
-    }
-
-}
 
 
-val sessionList = listOf(
-    "2020-2021",
-    "2021-2022",
-    "2022-2023",
-    "2023-2024",
-    "2024-2025",
-    "2025-2026",
 
-    )
-
-@Preview(showSystemUi = true, backgroundColor = 0x000000, showBackground = true)
-@Composable
-fun AddSchoolScreenPreview() {
-    AddSchedule()
-}
