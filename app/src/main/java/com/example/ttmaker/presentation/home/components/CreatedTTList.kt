@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ttmaker.domain.models.TimeTableCard
 import com.example.ttmaker.ManropeFontFamily
-import com.example.ttmaker.presentation.shared.Createttcard
+import com.example.ttmaker.presentation.home.shared.Createttcard
 
 @Composable
 fun CreatedTTList() {

@@ -1,4 +1,4 @@
-package com.example.ttmaker.presentation.shared
+package com.example.ttmaker.presentation.home.shared
 
 
 import androidx.compose.foundation.background
