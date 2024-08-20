@@ -1,4 +1,4 @@
-package com.example.ttmaker.presentation.home.shared
+package com.example.ttmaker.presentation.shared
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

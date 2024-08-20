@@ -45,7 +45,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.ttmaker.presentation.home.shared.CustomCheckbox
+import com.example.ttmaker.presentation.shared.CustomCheckbox
 import com.example.ui.theme.manrope
 
 @OptIn(ExperimentalMaterial3Api::class)

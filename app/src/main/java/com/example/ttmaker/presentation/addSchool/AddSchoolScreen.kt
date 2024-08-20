@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.ttmaker.ManropeFontFamily
 import com.example.ttmaker.presentation.addSchool.components.BasicInfoForm
-import com.example.ttmaker.presentation.home.shared.TabControls
+import com.example.ttmaker.presentation.shared.TabControls
 import com.example.ui.theme.manrope
 import java.util.Calendar
 
@@ -92,7 +92,6 @@ fun AddSchoolScreen(
                     })
                 }
             }
-
             Surface(
                 modifier = Modifier
                     .weight(1f)
