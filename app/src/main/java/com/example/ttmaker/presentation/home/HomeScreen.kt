@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
+import com.example.ttmaker.presentation.home.components.CreatedTTList
 import com.example.ttmaker.presentation.home.components.HomeControls
 import com.ntech.ttmaker.R
 
@@ -30,6 +31,7 @@ fun HomeScreen(
             modifier = Modifier.padding(innerPadding)
         ) {
             Header(profileImage = R.drawable.profile)
+            CreatedTTList()
         }
     }
 }
