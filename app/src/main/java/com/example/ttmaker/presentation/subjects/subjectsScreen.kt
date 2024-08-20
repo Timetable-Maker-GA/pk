@@ -3,6 +3,7 @@ package com.example.ttmaker.presentation.subjects
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,6 +24,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -35,10 +37,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
@@ -47,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.ttmaker.presentation.shared.CustomCheckbox
 import com.example.ui.theme.manrope
+import com.ntech.ttmaker.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -129,22 +134,25 @@ fun SubjectSelectorScreen(
     },
         bottomBar = {
             BottomAppBar(
-                modifier = Modifier.background(Color.Transparent),
+                modifier = Modifier
+                    .background(Color.Transparent)
+                    .padding(16.dp),
                 containerColor = Color.Transparent
             ) {
                 Button(
                     onClick = {
 
                     },
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(50.dp))
-                        .weight(0.5f)
-                        .background(Color.Transparent)
-                        .height(56.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF3165FF), contentColor = Color.White
                     ),
-                    contentPadding = PaddingValues(vertical = 8.dp)
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(16.dp))
+                        .fillMaxWidth()
+                        .weight(1f),
+                    shape = RoundedCornerShape(20.dp),
+
+                    contentPadding = PaddingValues(vertical = 16.dp)
                 ) {
                     Text(
                         text = "Add",
@@ -234,28 +242,60 @@ fun SubjectList(
 
 @Composable
 fun SubjectItem(subject: String, isSelected: Boolean) {
-
     var isChecked by remember { mutableStateOf(isSelected) }
+    var totalSubjects by remember {
+        mutableStateOf(0)
+    }
+    if (totalSubjects>0) {
+        isChecked=true
+    }else{
+        isChecked=false
+    }
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .clickable { isChecked = !isChecked }
+        .border(width = 1.dp, color = Color(0xFFF0F5FE), shape = RoundedCornerShape(24.dp))
+        .clip(RoundedCornerShape(24.dp))
+        .shadow(elevation = 24.dp, ambientColor = Color.Red)
+        .background(Color(0xFFFFFFFF))
+        .padding(vertical = 8.dp , horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween) {
+        Row {
+            CustomCheckbox(checked = isChecked, onCheckedChange = { isChecked = it })
 
-    Row(
-        modifier = Modifier
-
-            .fillMaxWidth()
-            .clickable { isChecked = !isChecked }
-            .border(width = 1.dp, color = Color(0xFFF0F5FE), shape = RoundedCornerShape(24.dp))
-            .clip(RoundedCornerShape(24.dp))
-            .shadow(elevation = 24.dp, ambientColor = Color.Red)
-            .background(Color(0xFFFFFFFF))
-            .padding(16.dp),
-    ) {
-        CustomCheckbox(checked = isChecked, onCheckedChange = { isChecked = it })
-
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = subject,
-            style = MaterialTheme.typography.bodyLarge,
-
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = subject,
+                style = MaterialTheme.typography.bodyLarge,
             )
+        }
+
+        Row(
+            modifier = Modifier
+
+                .padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            IconButton(onClick = {
+                totalSubjects--
+            }) {
+                Icon(painter = painterResource(id = R.drawable.minus), contentDescription = "")
+            }
+            Text(
+                text = "${totalSubjects}",
+                color = Color.Black,
+                style = MaterialTheme.typography.bodyMedium,
+                fontFamily = manrope,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium
+            )
+            IconButton(onClick = {
+                totalSubjects++
+            }) {
+                Icon(painter = painterResource(id = R.drawable.add), contentDescription = "")
+            }
+        }
     }
 }
 

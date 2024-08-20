@@ -4,25 +4,33 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -42,21 +51,54 @@ import com.example.ttmaker.util.schoolData
 import com.example.ttmaker.util.sectionList
 import com.example.ttmaker.util.sessionList
 import com.example.ui.theme.manrope
+import com.ntech.ttmaker.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTimeTableScreen(
     navController: NavHostController
 ) {
-    Scaffold(
-        containerColor = Color(0xFFF2F3F4),
-    ) { innerPadding ->
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
+    Scaffold(topBar = {
+        TopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors().copy(
+                containerColor = Color.Transparent
+            ),
+            title = { },
+            navigationIcon = {
+                Box(modifier = Modifier
+                    .padding(16.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .clickable {
+                        // Navigate to AddSchoolScreen
+                    }) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .clickable {
+                                navController.popBackStack()
+                            }
+                            .clip(CircleShape)
+                            .padding(16.dp)
+                            .clip(CircleShape),
+                    )
+                }
 
-            TimeTableForm(modifier = Modifier.padding(innerPadding))
+            },
+        )
+    }, containerColor = Color(0xFFF2F3F4), content = { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(16.dp)
+        ) {
+            TimeTableForm(modifier = Modifier.padding(innerPadding), navController)
         }
+
     }
+
+    )
 }
 
 
@@ -66,7 +108,7 @@ data class ClassTimeTable(
 
 @Composable
 fun TimeTableForm(
-    modifier: Modifier
+    modifier: Modifier, navController: NavHostController
 ) {
     var expandedSchoolList by remember { mutableStateOf(false) }
     var expandedClassList by remember { mutableStateOf(false) }
@@ -149,16 +191,18 @@ fun TimeTableForm(
             }
 
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
+        Spacer(modifier = Modifier.height(24.dp))
         Row(
             modifier = Modifier
+                .wrapContentHeight()
                 .fillMaxWidth()
-                .height(100.dp)
+
+
         ) {
             Column(
-                modifier = Modifier.weight(0.5f)
+                modifier = Modifier
+                    .weight(0.5f)
+                    .height(100.dp)
             ) {
                 Text(
                     text = "Select Class",
@@ -222,7 +266,9 @@ fun TimeTableForm(
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column(
-                modifier = Modifier.weight(0.5f)
+                modifier = Modifier
+                    .weight(0.5f)
+                    .height(100.dp)
             ) {
                 Text(
                     text = "Select Section",
@@ -283,23 +329,44 @@ fun TimeTableForm(
                 }
             }
         }
-
-
         Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = {},
+
+        Row(
             modifier = Modifier
-                .fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color.White)
+                .clickable {
+                    navController.navigate("select_subject")
+                }
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = "Select subjects",
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.Black,
+                fontFamily = manrope
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Icon(painter = painterResource(id = R.drawable.forward), contentDescription = null)
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(
+            onClick = {}, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF3165FF), contentColor = Color.White
             ), shape = RoundedCornerShape(16.dp)
         ) {
             Text(
+                modifier = Modifier.padding(8.dp),
                 text = "Add",
                 fontFamily = manrope,
-                style = MaterialTheme.typography.bodyMedium,
-            )
+                style = MaterialTheme.typography.titleMedium,
+
+                )
         }
+
 
     }
 }
