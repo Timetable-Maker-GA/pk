@@ -20,8 +20,8 @@ import androidx.compose.ui.res.colorResource
 import com.ntech.ttmaker.R
 //import com.example.ttmaker.R
 
-import com.example.ttmaker.components.Form
-import com.example.ttmaker.components.TextFileInput
+import com.example.ttmaker.presentation.addSchool.components.Form
+import com.example.ttmaker.presentation.addSchool.components.TextFileInput
 
 @Composable
 fun CreateInstitute(

@@ -29,6 +29,21 @@ fun NavGraph() {
         composable(route = "select_subject") {
             SubjectSelectorScreen(navController)
         }
+//        composable(route = "onboarding") {
+//            OnboardingScreen(navController = navController)
+//        }
+//        composable(route = "home_screen") {
+//            HomeScreen(navController)
+//        }
+//        composable(route = "add_school_screen") {
+//            AddSchoolScreen(navController)
+//        }
+//        composable(route = "add_tt_screen") {
+//            AddTimeTableScreen(navController)
+//        }
+//        composable(route = "select_subject") {
+//            SubjectSelectorScreen(navController)
+//        }
     }
 }
 
