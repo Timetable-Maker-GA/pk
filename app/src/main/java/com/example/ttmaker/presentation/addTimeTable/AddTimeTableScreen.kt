@@ -46,10 +46,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.ttmaker.ManropeFontFamily
-import com.example.ttmaker.util.classList
-import com.example.ttmaker.util.schoolData
-import com.example.ttmaker.util.sectionList
-import com.example.ttmaker.util.sessionList
 import com.example.ui.theme.manrope
 import com.ntech.ttmaker.R
 
@@ -110,263 +106,144 @@ data class ClassTimeTable(
 fun TimeTableForm(
     modifier: Modifier, navController: NavHostController
 ) {
-    var expandedSchoolList by remember { mutableStateOf(false) }
-    var expandedClassList by remember { mutableStateOf(false) }
-    var expandedSectionList by remember { mutableStateOf(false) }
-    val scrollState = rememberScrollState()
-    var schoolTimeTable = remember {
-        mutableStateOf(
-            ClassTimeTable(
-                school = schoolData.name,
-                classId = classList[0].name,
-                section = sectionList[0],
-                className = classList[0].className
-            )
-        )
-    }
-
-    Column(
-        modifier = Modifier.scrollable(
-            orientation = Orientation.Vertical, state = rememberScrollState()
-        )
-    ) {
-
-        Column {
-            Text(
-                text = "Select School",
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.Black,
-                fontFamily = manrope
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentSize(Alignment.TopStart)
-                    .clip(RoundedCornerShape(16.dp))
-
-            ) {
-
-                Text(text = schoolTimeTable.value.school,
-                    modifier = Modifier
-                        .clickable { expandedSchoolList = true }
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color.White)
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    fontSize = 16.sp,
-                    fontFamily = ManropeFontFamily,
-                    color = Color.Black)
-                DropdownMenu(
-                    expanded = expandedSchoolList,
-                    onDismissRequest = { expandedSchoolList = false },
-                    scrollState = scrollState,
-                    modifier = Modifier
-                        .clip(
-                            RoundedCornerShape(16.dp)
-                        )
-                        .background(Color.White),
-
-                    ) {
-                    sessionList.forEach { it ->
-                        DropdownMenuItem(text = {
-                            Text(
-                                text = it,
-                                style = MaterialTheme.typography.titleMedium,
-                                color = Color.Black,
-                                fontFamily = manrope
-                            )
-                        }, onClick = {
-                            schoolTimeTable.value = schoolTimeTable.value.copy(school = it)
-                            expandedSchoolList = false
-                        })
-                    }
-
-                }
-                LaunchedEffect(expandedSchoolList) {
-                    if (expandedSchoolList) {
-                        scrollState.scrollTo(scrollState.maxValue)
-                    }
-                }
-            }
-
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        Row(
-            modifier = Modifier
-                .wrapContentHeight()
-                .fillMaxWidth()
-
-
-        ) {
-            Column(
-                modifier = Modifier
-                    .weight(0.5f)
-                    .height(100.dp)
-            ) {
-                Text(
-                    text = "Select Class",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Color.Black,
-                    fontFamily = manrope
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Box(
-                    modifier = Modifier
-                        .weight(0.5f)
-                        .wrapContentSize(Alignment.TopStart)
-                        .clip(RoundedCornerShape(16.dp))
-
-                ) {
-
-                    Text(text = schoolTimeTable.value.className,
-                        modifier = Modifier
-                            .clickable { expandedClassList = true }
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(Color.White)
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        fontSize = 16.sp,
-                        fontFamily = ManropeFontFamily,
-                        color = Color.Black)
-                    DropdownMenu(
-                        expanded = expandedClassList,
-                        onDismissRequest = { expandedClassList = false },
-                        scrollState = scrollState,
-                        modifier = Modifier
-                            .clip(
-                                RoundedCornerShape(16.dp)
-                            )
-                            .background(Color.White),
-
-                        ) {
-                        classList.forEach { it ->
-                            DropdownMenuItem(text = {
-                                Text(
-                                    text = it.className,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = Color.Black,
-                                    fontFamily = manrope
-                                )
-                            }, onClick = {
-                                schoolTimeTable.value =
-                                    schoolTimeTable.value.copy(className = it.className)
-
-                                expandedClassList = false
-                            })
-                        }
-
-                    }
-                    LaunchedEffect(expandedClassList) {
-                        if (expandedClassList) {
-                            scrollState.scrollTo(scrollState.maxValue)
-                        }
-                    }
-                }
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(
-                modifier = Modifier
-                    .weight(0.5f)
-                    .height(100.dp)
-            ) {
-                Text(
-                    text = "Select Section",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = Color.Black,
-                    fontFamily = manrope
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Box(
-                    modifier = Modifier
-                        .weight(0.5f)
-                        .wrapContentSize(Alignment.TopStart)
-                        .clip(RoundedCornerShape(16.dp))
-
-                ) {
-
-                    Text(text = schoolTimeTable.value.section,
-                        modifier = Modifier
-                            .clickable { expandedSectionList = true }
-                            .clip(RoundedCornerShape(16.dp))
-                            .background(Color.White)
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        fontSize = 16.sp,
-                        fontFamily = ManropeFontFamily,
-                        color = Color.Black)
-                    DropdownMenu(
-                        expanded = expandedSectionList,
-                        onDismissRequest = { expandedSectionList = false },
-                        scrollState = scrollState,
-                        modifier = Modifier
-                            .clip(
-                                RoundedCornerShape(16.dp)
-                            )
-                            .background(Color.White),
-
-                        ) {
-                        sectionList.forEach { it ->
-                            DropdownMenuItem(text = {
-                                Text(
-                                    text = it,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = Color.Black,
-                                    fontFamily = manrope
-                                )
-                            }, onClick = {
-                                schoolTimeTable.value = schoolTimeTable.value.copy(section = it)
-                                expandedSectionList = false
-                            })
-                        }
-
-                    }
-                    LaunchedEffect(expandedSectionList) {
-                        if (expandedSectionList) {
-                            scrollState.scrollTo(scrollState.maxValue)
-                        }
-                    }
-                }
-            }
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(
-            modifier = Modifier
-                .wrapContentHeight()
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(16.dp))
-                .background(Color.White)
-                .clickable {
-                    navController.navigate("select_subject")
-                }
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = "Select subjects",
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color.Black,
-                fontFamily = manrope
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Icon(painter = painterResource(id = R.drawable.forward), contentDescription = null)
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        Button(
-            onClick = {}, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF3165FF), contentColor = Color.White
-            ), shape = RoundedCornerShape(16.dp)
-        ) {
-            Text(
-                modifier = Modifier.padding(8.dp),
-                text = "Add",
-                fontFamily = manrope,
-                style = MaterialTheme.typography.titleMedium,
-
-                )
-        }
-
-
-    }
+//                    DropdownMenu(
+//                        expanded = expandedClassList,
+//                        onDismissRequest = { expandedClassList = false },
+//                        scrollState = scrollState,
+//                        modifier = Modifier
+//                            .clip(
+//                                RoundedCornerShape(16.dp)
+//                            )
+//                            .background(Color.White),
+//
+//                        ) {
+//                        classList.forEach { it ->
+//                            DropdownMenuItem(text = {
+//                                Text(
+//                                    text = it.className,
+//                                    style = MaterialTheme.typography.titleMedium,
+//                                    color = Color.Black,
+//                                    fontFamily = manrope
+//                                )
+//                            }, onClick = {
+//                                schoolTimeTable.value =
+//                                    schoolTimeTable.value.copy(className = it.className)
+//
+//                                expandedClassList = false
+//                            })
+//                        }
+//
+//                    }
+//                    LaunchedEffect(expandedClassList) {
+//                        if (expandedClassList) {
+//                            scrollState.scrollTo(scrollState.maxValue)
+//                        }
+//                    }
+//                }
+//            }
+//            Spacer(modifier = Modifier.width(16.dp))
+//            Column(
+//                modifier = Modifier
+//                    .weight(0.5f)
+//                    .height(100.dp)
+//            ) {
+//                Text(
+//                    text = "Select Section",
+//                    style = MaterialTheme.typography.titleMedium,
+//                    color = Color.Black,
+//                    fontFamily = manrope
+//                )
+//                Spacer(modifier = Modifier.height(8.dp))
+//                Box(
+//                    modifier = Modifier
+//                        .weight(0.5f)
+//                        .wrapContentSize(Alignment.TopStart)
+//                        .clip(RoundedCornerShape(16.dp))
+//
+//                ) {
+//
+//                    Text(text = schoolTimeTable.value.section,
+//                        modifier = Modifier
+//                            .clickable { expandedSectionList = true }
+//                            .clip(RoundedCornerShape(16.dp))
+//                            .background(Color.White)
+//                            .fillMaxWidth()
+//                            .padding(16.dp),
+//                        fontSize = 16.sp,
+//                        fontFamily = ManropeFontFamily,
+//                        color = Color.Black)
+//                    DropdownMenu(
+//                        expanded = expandedSectionList,
+//                        onDismissRequest = { expandedSectionList = false },
+//                        scrollState = scrollState,
+//                        modifier = Modifier
+//                            .clip(
+//                                RoundedCornerShape(16.dp)
+//                            )
+//                            .background(Color.White),
+//
+//                        ) {
+//                        sectionList.forEach { it ->
+//                            DropdownMenuItem(text = {
+//                                Text(
+//                                    text = it,
+//                                    style = MaterialTheme.typography.titleMedium,
+//                                    color = Color.Black,
+//                                    fontFamily = manrope
+//                                )
+//                            }, onClick = {
+//                                schoolTimeTable.value = schoolTimeTable.value.copy(section = it)
+//                                expandedSectionList = false
+//                            })
+//                        }
+//
+//                    }
+//                    LaunchedEffect(expandedSectionList) {
+//                        if (expandedSectionList) {
+//                            scrollState.scrollTo(scrollState.maxValue)
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        Spacer(modifier = Modifier.height(16.dp))
+//
+//        Row(
+//            modifier = Modifier
+//                .wrapContentHeight()
+//                .fillMaxWidth()
+//                .clip(RoundedCornerShape(16.dp))
+//                .background(Color.White)
+//                .clickable {
+//                    navController.navigate("select_subject")
+//                }
+//                .padding(16.dp),
+//            horizontalArrangement = Arrangement.SpaceBetween
+//        ) {
+//            Text(
+//                text = "Select subjects",
+//                style = MaterialTheme.typography.bodyLarge,
+//                color = Color.Black,
+//                fontFamily = manrope
+//            )
+//            Spacer(modifier = Modifier.width(8.dp))
+//            Icon(painter = painterResource(id = R.drawable.forward), contentDescription = null)
+//        }
+//        Spacer(modifier = Modifier.height(24.dp))
+//        Button(
+//            onClick = {}, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(
+//                containerColor = Color(0xFF3165FF), contentColor = Color.White
+//            ), shape = RoundedCornerShape(16.dp)
+//        ) {
+//            Text(
+//                modifier = Modifier.padding(8.dp),
+//                text = "Add",
+//                fontFamily = manrope,
+//                style = MaterialTheme.typography.titleMedium,
+//
+//                )
+//        }
+//
+//
+//    }
 }

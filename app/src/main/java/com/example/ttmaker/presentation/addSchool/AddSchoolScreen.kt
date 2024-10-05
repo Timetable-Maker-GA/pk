@@ -20,7 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.navigation.NavHostController
-import com.example.ttmaker.presentation.addSchool.components.Form
+//import com.example.ttmaker.presentation.addSchool.components.Form
 import com.example.ttmaker.presentation.addSchool.components.TextFileInput
 import com.ntech.ttmaker.R
 
@@ -67,8 +67,8 @@ fun AddSchoolScreen(
         }
 
         when (selectedTabIndex) {
-            0 -> TextFileInput()
-            1 -> Form()
+            0 -> TextFileInput(navController)
+//            1 -> Form()
         }
     }
 }

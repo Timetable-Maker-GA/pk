@@ -5,8 +5,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 @Database(entities = [SchoolEntity::class], version = 1)
+@TypeConverters(Converters::class)  // Register your converters here
 abstract class SchoolDatabase : RoomDatabase() {
 
     abstract fun schoolDao(): SchoolDao

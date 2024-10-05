@@ -34,8 +34,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.ttmaker.presentation.home.components.InstituteList
-import com.example.ttmaker.presentation.home.components.TimetableList
+import com.example.ttmaker.presentation.home.components.SchoolList
 import com.ntech.ttmaker.R
 
 @Composable
@@ -54,7 +53,7 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             HorizontalSlider()
-//            InstituteList(instituteList, toTimetableCreationPageWithInstitute)
+            SchoolList()
 //            TimetableList(instituteList, toTimetableCreationPageWithInstitute)
         }
         FloatingActionButton(
@@ -142,24 +141,3 @@ fun HomeScreen(
         }
     }
 }
-//@Composable
-//fun HomeScreen(
-//    navController: NavHostController,
-//) {
-//    Scaffold(
-//        modifier = Modifier
-//            .padding()
-//            .fillMaxWidth(), backgroundColor = Color(0xFFf2f3f4)
-//,
-//        bottomBar = {
-//            HomeControls(navController)
-//        }
-//    ) { innerPadding ->
-//        Column(
-//            modifier = Modifier.padding(innerPadding)
-//        ) {
-//            Header(profileImage = R.drawable.profile)
-//            CreatedTTList()
-//        }
-//    }
-//}
