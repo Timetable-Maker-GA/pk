@@ -1,7 +1,7 @@
 package com.example.ttmaker.classes
 
 import android.util.Log
-import com.example.ttmaker.classes.types.TeacherInfo
+import com.example.ttmaker.model.TeacherInfo
 import kotlin.random.Random
 
 
@@ -9,7 +9,10 @@ data class School(
     val name: String,
     val teachers: List<TeacherInfo>,
     val subjects: List<String>,
-    val allTimetables: MutableList<Timetable> = mutableListOf(),
+//    val allTimetables: MutableList<Timetable> = mutableListOf(),
+
+//    val allTimetables: MutableList<Timetable> = mutableListOf()
+    val allTimetables: List<Timetable> = listOf(),
     val DAYS: Int,
     val HOURS: Int,
     val POPULATION_SIZE: Int,

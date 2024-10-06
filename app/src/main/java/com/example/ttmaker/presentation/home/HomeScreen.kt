@@ -1,6 +1,7 @@
 package com.example.ttmaker.presentation.home
 
 import HorizontalSlider
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,10 +31,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.ttmaker.CreateTTActivity
+import com.example.ttmaker.SchoolActivity
 import com.example.ttmaker.presentation.home.components.SchoolList
 import com.ntech.ttmaker.R
 
@@ -43,6 +47,7 @@ fun HomeScreen(
 ) {
     var expanded by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
+    val context = LocalContext.current // Get the context
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -134,7 +139,10 @@ fun HomeScreen(
                     },
                     onClick = {
                         expanded = false
-                        navController.navigate("add_tt_screen")
+                        val intent = Intent(context, CreateTTActivity::class.java).apply {
+//                            putExtra("SCHOOL_ID", school.id) // Pass the school ID (ensure you have this field in SchoolBasicInfo)
+                        }
+                        context.startActivity(intent) // Start the activity
                     }
                 )
             }

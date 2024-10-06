@@ -1,6 +1,7 @@
 package com.example.ttmaker.classes
 
-import com.example.ttmaker.classes.types.TeacherInfo
+import com.example.ttmaker.model.ClassLevel
+import com.example.ttmaker.model.TeacherInfo
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.random.Random
@@ -15,18 +16,17 @@ fun filterTeachersByClass(
     for (teacher in teachers) {
         // Initialize mutable lists for filtering
         val filterSubjects: MutableList<String> = mutableListOf()
-        val filterClassLevels: MutableList<Pair<Int, Int>> = mutableListOf()
+        val filterClassLevels: MutableList<ClassLevel> = mutableListOf()
 
         teacher.subjects.zip(teacher.classLevels).forEach { (subject, classLevel) ->
             // Check if the subject is present and if class level is within the desired range
             if (subPeriodsPerWeek.contains(subject) &&
                 subPeriodsPerWeek[subject] != 0 &&
-                className.toInt() in classLevel.first..classLevel.second) {
+                className.toInt() in classLevel.start..classLevel.end) {
                 filterSubjects.add(subject)
                 filterClassLevels.add(classLevel)
             }
         }
-
         // If there are any filtered subjects and class levels, create a filtered TeacherInfo
         if (filterSubjects.isNotEmpty() && filterClassLevels.isNotEmpty()) {
             val filterTeacher = TeacherInfo(

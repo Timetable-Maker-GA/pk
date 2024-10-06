@@ -1,5 +1,8 @@
 package com.example.ttmaker.data
 
+import androidx.lifecycle.LiveData
+import com.example.ttmaker.model.SchoolBasicInfo
+
 class SchoolRepository private constructor(private val schoolDao: SchoolDao) {
 
     // Companion object for singleton instance
@@ -19,5 +22,11 @@ class SchoolRepository private constructor(private val schoolDao: SchoolDao) {
 
     suspend fun getAllSchools(): List<SchoolEntity> {
         return schoolDao.getAllSchools()
+    }
+    suspend fun getSchoolById(schoolId: Int): SchoolEntity? {
+        return schoolDao.getSchoolById(schoolId)
+    }
+    suspend fun getAllSchoolsBasicInfo(): List<SchoolBasicInfo> {
+        return schoolDao.getAllSchoolsBasicInfo()
     }
 }

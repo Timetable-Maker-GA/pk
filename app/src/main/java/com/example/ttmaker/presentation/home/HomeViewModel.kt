@@ -4,24 +4,32 @@ package com.example.ttmaker.presentation.home
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.ttmaker.data.SchoolEntity
 import com.example.ttmaker.data.SchoolRepository
+import com.example.ttmaker.model.SchoolBasicInfo
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val repository: SchoolRepository) : ViewModel() {
 
-    var schoolList = mutableStateOf<List<SchoolEntity>>(emptyList())
+
+    // Mutable state to hold the list of schools
+    var schoolList = mutableStateOf<List<SchoolBasicInfo>>(emptyList())
         private set
 
     init {
-        fetchSchools()  // Call the function here to load the data
+        fetchSchools()
     }
+
     private fun fetchSchools() {
         viewModelScope.launch {
-            schoolList.value = repository.getAllSchools() // Fetch the schools from the repository
+            // Fetch the data from the repository
+            val schools = repository.getAllSchoolsBasicInfo()
+            schoolList.value = schools // Update state
         }
     }
 }

@@ -17,10 +17,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.ttmaker.model.Slide
 import com.ntech.ttmaker.R
 //import com.example.ttmaker.R
 
-import com.example.ttmaker.classes.types.Slide
 import com.google.accompanist.pager.*
 //import kotlinx.coroutines.DefaultExecutor.delay
 import kotlinx.coroutines.delay

@@ -1,5 +1,6 @@
 package com.example.ttmaker.presentation.addTimeTable
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
@@ -41,19 +42,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.ttmaker.MainActivity
 import com.example.ttmaker.ManropeFontFamily
+import com.example.ttmaker.SchoolActivity
 import com.example.ui.theme.manrope
 import com.ntech.ttmaker.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTimeTableScreen(
-    navController: NavHostController
+    schoolId : Int
 ) {
+    val context = LocalContext.current // Get the context
+
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.topAppBarColors().copy(
@@ -73,7 +79,12 @@ fun AddTimeTableScreen(
                         contentDescription = null,
                         modifier = Modifier
                             .clickable {
-                                navController.popBackStack()
+                                // Create an Intent to launch SchoolActivity and pass the school ID
+                    val intent = Intent(context, MainActivity::class.java).apply {
+//                        putExtra("SCHOOL_ID", school.id) // Pass the school ID (ensure you have this field in SchoolBasicInfo)
+                    }
+                    context.startActivity(intent) // Start the activity
+
                             }
                             .clip(CircleShape)
                             .padding(16.dp)
@@ -89,7 +100,7 @@ fun AddTimeTableScreen(
                 .padding(innerPadding)
                 .padding(16.dp)
         ) {
-            TimeTableForm(modifier = Modifier.padding(innerPadding), navController)
+//            TimeTableForm(modifier = Modifier.padding(innerPadding))
         }
 
     }
@@ -102,10 +113,10 @@ data class ClassTimeTable(
     val school: String, val classId: String, val section: String, val className: String
 )
 
-@Composable
-fun TimeTableForm(
-    modifier: Modifier, navController: NavHostController
-) {
+//@Composable
+//fun TimeTableForm(
+//    modifier: Modifier
+//) {
 //                    DropdownMenu(
 //                        expanded = expandedClassList,
 //                        onDismissRequest = { expandedClassList = false },
@@ -243,7 +254,5 @@ fun TimeTableForm(
 //
 //                )
 //        }
-//
-//
 //    }
-}
+//}

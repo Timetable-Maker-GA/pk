@@ -2,7 +2,6 @@ package com.example.ttmaker.components
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.ttmaker.classes.types.TeacherInfo
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.UUID

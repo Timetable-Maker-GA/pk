@@ -1,5 +1,6 @@
 package com.example.ttmaker.presentation.home.components
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,21 +27,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.ttmaker.SchoolActivity
+import com.example.ttmaker.TTMakerApplication
 import com.ntech.ttmaker.R
 //import com.example.ttmaker.R
 
-import com.example.ttmaker.data.LocalSchoolContext
+//import com.example.ttmaker.data.LocalSchoolContext
 import com.example.ttmaker.data.SchoolEntity
+import com.example.ttmaker.model.SchoolBasicInfo
 import com.example.ttmaker.presentation.home.HomeViewModel
 import com.example.ttmaker.presentation.home.HomeViewModelFactory
 
 
 @Composable
-fun InfoCard(school: SchoolEntity) {
+fun InfoCard(school: SchoolBasicInfo) {
         Column (
             modifier = Modifier
                 .padding(start = 15.dp, top = 10.dp, end = 25.dp, bottom = 10.dp)
@@ -50,30 +55,21 @@ fun InfoCard(school: SchoolEntity) {
                 modifier= Modifier
                     .padding(bottom = 0.dp),
                 verticalAlignment = Alignment.CenterVertically) {
-
-//                Text(
-//                    text = "${school.allTimetables.size}",
-//                    fontWeight = FontWeight.ExtraBold
-//                )
                 Text(
                     modifier  = Modifier
                         .padding(start = 6.dp),
                     text = "time tables",
-                    //                style = MaterialTheme.typography.body
-                   
                     color = colorResource(id = R.color.textLightGrayPale)
                 )
             }
-
-//            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = school.name,
                 
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = school.hours.toString(),
-                )
+//            Spacer(modifier = Modifier.height(4.dp))
+//            Text(
+//                text = school.HOURS.toString(),
+//                )
             Spacer(modifier = Modifier.height(4.dp))
 //            Text(
 //                text = "Subjects: ${school.subjects.size} | " +
@@ -89,8 +85,9 @@ fun InfoCard(school: SchoolEntity) {
 
 }
 @Composable
-fun SchoolCard(school: SchoolEntity
+fun SchoolCard(school: SchoolBasicInfo
                   ) {
+    val context = LocalContext.current // Get the context
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -103,7 +100,12 @@ fun SchoolCard(school: SchoolEntity
             modifier = Modifier
 //                .padding(46.dp)
                 .clickable {
-//                    toTimetableCreationPageWithInstitute(school)
+
+                    // Create an Intent to launch SchoolActivity and pass the school ID
+                    val intent = Intent(context, SchoolActivity::class.java).apply {
+                        putExtra("SCHOOL_ID", school.id) // Pass the school ID (ensure you have this field in SchoolBasicInfo)
+                    }
+                    context.startActivity(intent) // Start the activity
                            }
             ,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -129,16 +131,19 @@ fun SchoolCard(school: SchoolEntity
 fun SchoolList(
 ) {
     // Access the current SchoolContext from the CompositionLocal
-    val schoolContext = LocalSchoolContext.current
-    val vm: HomeViewModel = viewModel(factory = HomeViewModelFactory(schoolContext.schoolRepository))
+//    val schoolContext = LocalSchoolContext.current
 
+    // Access the application context
+    val context = LocalContext.current
+    val app = context.applicationContext as TTMakerApplication
+    val vm: HomeViewModel = viewModel(factory = HomeViewModelFactory(app.schoolRepository))
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(id = R.color.bgLight))
     ) {
-        Text(text = "YOOO: " + vm.schoolList.value.size)
+        Text(text = "YOOO: " + vm.schoolList.value?.size)
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -148,7 +153,7 @@ fun SchoolList(
         ){
 
             Text(
-                color = Color.Gray, text =  schoolContext.schoolOrInstitute,
+                color = Color.Gray, text =  app.schoolOrInstitute,
             )
 
             Row(
@@ -180,10 +185,12 @@ fun SchoolList(
 //                SchoolCard(sortedSchoolList[index]
 //                                )
 //            }
-            items(vm.schoolList.value.size) { index ->
-                SchoolCard(vm.schoolList.value[index]
-                )
+            vm.schoolList.value?.let { schoolList ->
+                items(schoolList.size) { index ->
+                    SchoolCard(schoolList[index])
+                }
             }
+
         }
     }
 }

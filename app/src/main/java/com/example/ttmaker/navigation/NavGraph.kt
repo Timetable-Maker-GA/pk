@@ -7,8 +7,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.ttmaker.data.LocalSchoolContext
-import com.example.ttmaker.data.SchoolContext
+//import com.example.ttmaker.data.LocalSchoolContext
+//import com.example.ttmaker.data.SchoolContext
 import com.example.ttmaker.data.SchoolDatabase
 import com.example.ttmaker.data.SchoolRepository
 import com.example.ttmaker.presentation.AddSchoolScreen
@@ -21,22 +21,23 @@ fun NavGraph() {
     val navController = rememberNavController()
 
     // Obtain the current context
-    val context = LocalContext.current
+//    val context = LocalContext.current
+//
+//    // Initialize SchoolDao and create SchoolRepository
+//    val schoolDao = SchoolDatabase.getInstance(context).schoolDao()
+//    val repository = remember { SchoolRepository.getInstance(schoolDao) }
+//
+//    // Create a SchoolContext instance
+//    val schoolContext = remember {
+//        SchoolContext(
+//            schoolRepository = repository,
+//            schoolOrInstitute = "School" // Replace with actual school or institute name
+//        )
+//    }
 
-    // Initialize SchoolDao and create SchoolRepository
-    val schoolDao = SchoolDatabase.getInstance(context).schoolDao()
-    val repository = remember { SchoolRepository.getInstance(schoolDao) }
-
-    // Create a SchoolContext instance
-    val schoolContext = remember {
-        SchoolContext(
-            schoolRepository = repository,
-            schoolOrInstitute = "School" // Replace with actual school or institute name
-        )
-    }
 
     // Provide the SchoolContext to the CompositionLocal
-    CompositionLocalProvider(LocalSchoolContext provides schoolContext) {
+//    CompositionLocalProvider(LocalSchoolContext provides schoolContext) {
     NavHost(navController = navController, startDestination = "home_screen") {
         composable(route = "onboarding") {
             OnboardingScreen(navController = navController)
@@ -68,7 +69,7 @@ fun NavGraph() {
 //        composable(route = "select_subject") {
 //            SubjectSelectorScreen(navController)
 //        }
-    }
+//    }
     }
 }
 
