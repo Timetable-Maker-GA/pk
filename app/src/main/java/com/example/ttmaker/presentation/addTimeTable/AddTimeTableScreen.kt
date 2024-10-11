@@ -1,6 +1,7 @@
 package com.example.ttmaker.presentation.addTimeTable
 
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,6 +35,7 @@ import com.example.ttmaker.presentation.addTimeTable.components.LoadingScreen
 //import com.example.ttmaker.util.saveAsExcel
 //import com.example.ttmaker.util.saveAsPDF
 import androidx.compose.material3.OutlinedTextField
+import com.example.ttmaker.CreateTTActivity
 import com.example.ttmaker.presentation.addTimeTable.components.DisplayTimetables
 import com.example.ttmaker.presentation.addTimeTable.components.SubjectSelection
 import com.ntech.ttmaker.R
@@ -51,11 +53,16 @@ fun AddTimeTableScreen(
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp
 
+    LaunchedEffect(schoolId) {
+        Log.d("SCHOOL ID: ", schoolId.toString())
+        vm.updateSelectedSchool(schoolId)
+    }
+
     val createFileLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("application/pdf")
     ) { uri: Uri? ->
         uri?.let {
-            InterstitialAdContainerPDF(context as MainActivity)
+            InterstitialAdContainerPDF(context as CreateTTActivity)
                 vm.saveAsPDF(context, it)
         }
     }
@@ -64,7 +71,7 @@ fun AddTimeTableScreen(
         contract = ActivityResultContracts.CreateDocument("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     ) { uri: Uri? ->
         uri?.let {
-            InterstitialAdContainerEXCEL(context as MainActivity)
+            InterstitialAdContainerEXCEL(context as CreateTTActivity)
                 vm.saveAsExcel(context, it)
         }
     }
@@ -77,7 +84,6 @@ fun AddTimeTableScreen(
             .background(Color.White)
     ) {
         if (vm.isCreating.value) {
-//        if (vm.isCreating.value)
             LoadingScreen(vm.gen.value, vm.level.value.toInt(),
                 population = vm.selectedSchool.value!!.POPULATION_SIZE,
                 generation = vm.selectedSchool.value!!.GENERATIONS)
@@ -87,9 +93,6 @@ fun AddTimeTableScreen(
                     text = "Select Institute",
                     modifier = Modifier.padding(top = 4.dp)
                 )
-//                Button(onClick = {vm.updateIsCreating(!vm.isCreating.value)}) {
-//                    Text(text = "CHANGE LOAD")
-//                }
                 Box {
                     Text(
                         text = vm.selectedSchool.value?.name ?: "Choose an institute",

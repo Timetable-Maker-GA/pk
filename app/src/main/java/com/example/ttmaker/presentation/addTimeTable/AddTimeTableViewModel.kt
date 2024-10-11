@@ -65,7 +65,7 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
         private set
     var level = mutableStateOf(5f )
         private set
-    fun updateGen(g: Int){
+    private fun updateGen(g: Int){
         gen.value  = gen.value+1
     }
 
@@ -326,6 +326,7 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
                     for (hour in 1..timetable.HOURS) {
                         table.addHeaderCell("Hour $hour")
                     }
+
                     val subjectCount = mutableMapOf<String, Int>()
 
                     // Add rows for each day
@@ -339,34 +340,40 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
                         }
                     }
                     document.add(table)
+
+                    Log.d("PDFCreation", "Adding Timetable Statistics to PDF")
+                    // Add timetable statistics header
                     document.add(
                         Paragraph("Timetable Statistics")
                             .setBold()
                             .setFontSize(18f)
                             .setMarginTop(20f)
                     )
+
                     // Create a table for subjects and their counts
                     val subjectTable = Table(UnitValue.createPercentArray(3)).useAllAvailableWidth()
 
-// Add header row
+                    // Add header row
                     subjectTable.addHeaderCell("Subject")
-                    subjectTable.addHeaderCell("Lectures: Allocated / target")
+                    subjectTable.addHeaderCell("Lectures: Allocated / Target")
                     subjectTable.addHeaderCell("Teacher")
 
-// Add rows for each subject
+                    // Add rows for each subject
                     subjectCount.forEach { (subject, count) ->
                         subjectTable.addCell(subject)
                         subjectTable.addCell(
-                            timetable.subPeriodsPerWeek[subject].toString() +
-                                    " / " + count.toString()
+                            "${timetable.subPeriodsPerWeek[subject]} / $count"
                         )
                         subjectTable.addCell(
                             timetable.chosenTeachers[subject] ?: "N/A"
                         ) // Use "N/A" if no teacher is chosen
                     }
 
-// Add the subject table to the document
-                    document.add(Paragraph("\n\n\n"))
+                    // Add the subject table to the document
+                    document.add(subjectTable)
+
+                    // Optional: Add some spacing between timetables
+                    document.add(Paragraph("\n\n"))
                 }
 
 
@@ -382,7 +389,7 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
         }
     }
 
-    // xxxxxxxxxxxxxxxx
+
     private fun crossOver1(parent1: Timetable, parent2: Timetable): Timetable {
         val random = Random.Default
         val total = selectedSchool.value!!.DAYS * selectedSchool.value!!.HOURS

@@ -17,6 +17,8 @@ import com.example.ttmaker.data.SchoolRepository
 
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import com.example.ttmaker.presentation.School.SchoolScreen
+
 class SchoolActivity : ComponentActivity() {
 
     private val viewModel: SchoolActivityViewModel by viewModels {
@@ -37,32 +39,9 @@ class SchoolActivity : ComponentActivity() {
 
             if (schoolId == -1){
                 Text(text = "Sorry No Entry in Database")
-            }else
-            SchoolScreen(viewModel)
-        }
-    }
-}
-
-@Composable
-fun SchoolScreen(viewModel: SchoolActivityViewModel) {
-    val schoolDetails = viewModel.schoolDetails.collectAsState().value
-
-    // Display the school information
-    MaterialTheme {
-        Surface {
-            Column {
-                schoolDetails?.let {
-                    Text("School Name: ${it.name}")
-                    // Display more school details as needed
-                    // For example:
-                    Text("Teachers: ${it.teachers.joinToString { teacher -> teacher.name }}")
-                    Text("Subjects: ${it.subjects.joinToString()}")
-                    // Continue displaying other properties as needed
-                } ?: run {
-                    Text("Loading school details...")
-                }
             }
-
+            else schoolId?.let { SchoolScreen(viewModel, it) }
         }
     }
 }
+
