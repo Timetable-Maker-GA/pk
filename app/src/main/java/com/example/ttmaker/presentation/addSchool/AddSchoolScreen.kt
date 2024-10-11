@@ -51,14 +51,14 @@ fun AddSchoolScreen(
             }) {
             Tab(
                 text = { Text("File Input",
-                    color= colorResource(id = R.color.textLightBlueHeavy)
+                    color= colorResource(id = R.color.headingLightBlueHeavy)
                 ) },
                 selected = selectedTabIndex == 0,
                 onClick = { selectedTabIndex = 0 }
             )
             Tab(
                 text = { Text("Form Input",
-                    color= colorResource(id = R.color.textLightBlueHeavy)
+                    color= colorResource(id = R.color.headingLightBlueHeavy)
                 ) },
                 selected = selectedTabIndex == 1,
                 onClick = { selectedTabIndex = 1 }

@@ -11,7 +11,6 @@ data class SchoolEntity(
     val name: String,
     val teachers: List<TeacherInfo>,
     val subjects: List<String>,
-//    val allTimetables: MutableList<Timetable> = mutableListOf()
     val allTimetables: List<Timetable> = listOf(),
     val DAYS: Int,
     val HOURS: Int,
@@ -20,3 +19,5 @@ data class SchoolEntity(
     val createdAt: Long,
     val timetableCount: Int,
 )
+
+//    val allTimetables: MutableList<Timetable> = mutableListOf()

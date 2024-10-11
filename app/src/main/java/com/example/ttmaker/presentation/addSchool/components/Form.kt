@@ -194,7 +194,7 @@ fun Form(
             ) {
                 Text(
                     "Add Teacher Info",
-                    color = colorResource(id = R.color.textLightBlueHeavy)
+                    color = colorResource(id = R.color.headingLightBlueHeavy)
                 )
             }
         }

@@ -178,7 +178,7 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
                     Log.d("ExcelCreation", "Adding Timetable ${index + 1} to Excel")
 
                     sheet.createRow(rowIndex++).createCell(0)
-                        .setCellValue("Timetable ${index + 1} - ${timetable.className} ${timetable.section}")
+                        .setCellValue("Timetable ${index + 1}- ${timetable.className} ${timetable.section}")
 
                     // Add spacing before timetable details
                     sheet.createRow(rowIndex++)
@@ -311,7 +311,7 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
                     Log.d("PDFCreation", "Adding Timetable ${index + 1} to PDF")
 
                     document.add(
-                        Paragraph("Timetable ${index + 1} - ${timetable.className} ${timetable.section}")
+                        Paragraph("Timetable ${index + 1}- ${timetable.className} ${timetable.section}")
                             .setBold()
                             .setFontSize(16f)
                             .setMarginTop(10f)

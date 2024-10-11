@@ -161,7 +161,7 @@ fun SchoolList(
             )
             {
                 Text(
-                    color = colorResource(id = R.color.textLightBluePale),
+                    color = colorResource(id = R.color.headingLightBluePale),
                     text = "Swipe ",
                     
                 )
@@ -171,7 +171,7 @@ fun SchoolList(
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .size(12.dp),
-                    tint = colorResource(id = R.color.textLightBluePale),
+                    tint = colorResource(id = R.color.headingLightBluePale),
                 )
             }
         }

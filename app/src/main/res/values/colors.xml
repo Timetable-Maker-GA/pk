@@ -9,15 +9,18 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="bgLight">#F6F6F6</color>
+    <color name="bgDark">#ECEAEA</color>
+
     <color name="bgLightElevated">#FFFFFFFF</color>
+    <color name="bgLightGray">#BFBFBF</color>
 
     <color name="buttonLightPale">#43b2e6</color>
     <color name="buttonLightHeavy">#179AD8</color>
 
     <color name="textLightGrayPale">#BFBFBF</color>
 
-    <color name="textLightBluePale">#43b2e6</color>
-    <color name="textLightBlueHeavy">#179AD8</color>
+    <color name="headingLightBluePale">#43b2e6</color>
+    <color name="headingLightBlueHeavy">#179AD8</color>
 
     <color name="inputGrayDark">#555555</color>
     <color name="inputGrayLight">#B5B5B5</color>
