@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.ttmaker.classes.Timetable
 import com.example.ttmaker.model.SchoolBasicInfo
 
 
@@ -21,4 +22,14 @@ interface SchoolDao {
 
     @Query("SELECT id, name, createdAt, timetableCount FROM schools")
     suspend  fun getAllSchoolsBasicInfo(): List<SchoolBasicInfo>
+
+
+
+    @Query("""
+        UPDATE schools 
+        SET allTimetables = :newTimetables, timetableCount = :newCount 
+        WHERE id = :schoolId
+    """)
+    suspend fun updateTimetableAndCount(schoolId: Int, newTimetables: List<Timetable>, newCount: Int)
+
 }

@@ -1,6 +1,7 @@
 package com.example.ttmaker.data
 
 import androidx.lifecycle.LiveData
+import com.example.ttmaker.classes.Timetable
 import com.example.ttmaker.model.SchoolBasicInfo
 
 class SchoolRepository private constructor(private val schoolDao: SchoolDao) {
@@ -28,5 +29,9 @@ class SchoolRepository private constructor(private val schoolDao: SchoolDao) {
     }
     suspend fun getAllSchoolsBasicInfo(): List<SchoolBasicInfo> {
         return schoolDao.getAllSchoolsBasicInfo()
+    }
+    // Function to update the timetable and timetable count for a specific school
+    suspend fun updateTimetableAndCount(schoolId: Int, newTimetables: List<Timetable>, newCount: Int) {
+        schoolDao.updateTimetableAndCount(schoolId, newTimetables, newCount)
     }
 }

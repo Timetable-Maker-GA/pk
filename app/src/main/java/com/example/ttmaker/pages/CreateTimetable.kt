@@ -19,10 +19,8 @@
 //import androidx.compose.foundation.layout.padding
 //import androidx.compose.foundation.layout.size
 //import androidx.compose.foundation.rememberScrollState
-//import androidx.compose.foundation.shape.RoundedCornerShape
 //import androidx.compose.foundation.text.KeyboardOptions
 //import androidx.compose.foundation.verticalScroll
-//import androidx.compose.material.Card
 //import androidx.compose.material3.Button
 //import androidx.compose.material3.ButtonDefaults
 //import androidx.compose.material3.CircularProgressIndicator
@@ -50,13 +48,15 @@
 //import androidx.compose.ui.text.input.KeyboardType
 //import androidx.compose.ui.text.style.TextAlign
 //import androidx.compose.ui.unit.dp
-//import androidx.compose.ui.unit.sp
 //import androidx.compose.ui.zIndex
-//import com.example.ttmaker.MainActivity
+//import com.ntech.ttmaker.MainActivity
 ////import com.example.ttmakerpk.R
 //import com.example.ttmaker.adsContainer.InterstitialAdContainerEXCEL
 //import com.example.ttmaker.adsContainer.InterstitialAdContainerPDF
-//import com.example.ttmaker.components.DisplayTimetables
+//import com.example.ttmaker.classes.Institute
+//import com.example.ttmaker.presentation.addTimeTable.components.DisplayTimetables
+//import com.example.ttmaker.components.updateInstitute
+//import com.example.ttmaker.ui.theme.FontSizes
 //import com.itextpdf.kernel.pdf.PdfDocument
 //import com.itextpdf.kernel.pdf.PdfWriter
 //import com.itextpdf.layout.Document
@@ -147,7 +147,7 @@
 //
 //                Text(
 //                    text = "Select Institute",
-//
+//                    fontSize = FontSizes.body,
 //                    modifier = Modifier.padding(top = 4.dp)
 //                )
 //                Box {
@@ -158,7 +158,7 @@
 //                            .clickable { expanded = true }
 //                            .background(Color.LightGray)
 //                            .padding(16.dp),
-//
+//                        fontSize = FontSizes.body,
 //                    )
 //                    DropdownMenu(
 //                        expanded = expanded,
@@ -170,6 +170,7 @@
 //                                text = {
 //                                    Text(
 //                                        institute.name,
+//                                        fontSize = FontSizes.body
 //                                    )
 //                                },
 //                                onClick = {
@@ -196,7 +197,7 @@
 //                        label = {
 //                            Text(
 //                                "Class No",
-//
+//                                fontSize = FontSizes.body,
 //                            )
 //                        },
 //                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -212,7 +213,7 @@
 //                        label = {
 //                            Text(
 //                                "Section",
-//
+//                                fontSize = FontSizes.body,
 //                            )
 //                        },
 //                        modifier = Modifier
@@ -240,7 +241,7 @@
 //                                .padding(end = 8.dp),
 //                            text =
 //                            "Complexity Non Linear: ${level.toInt()}",
-//
+//                            fontSize = FontSizes.body,
 //                            fontWeight = FontWeight.Bold
 //                        )
 //                        Text(
@@ -248,6 +249,7 @@
 //                                .padding(end = 8.dp),
 //                            text =
 //                            "(200 = 2min & 600 = 18min)",
+//                            fontSize = FontSizes.body
 //                        )
 //                    }
 //                    Slider(
@@ -303,7 +305,7 @@
 //                Text(
 //                    text = "Subjects - Periods per Week : $periodsGiven / ${((selectedInstitute?.HOURS ?: 0) * (selectedInstitute?.DAYS ?: 0)).toString()}",
 //                    style = MaterialTheme.typography.bodyLarge.copy(
-//
+//                        fontSize = FontSizes.body,
 //                        fontWeight = FontWeight.SemiBold,
 //                        color = MaterialTheme.colorScheme.secondary,
 //                        textAlign = TextAlign.Center
@@ -319,7 +321,7 @@
 //
 //                if (isNull(selectedInstitute)) Text(
 //                    text = "Select Institute First!!!",
-//
+//                    fontSize = FontSizes.body,
 //                )
 //
 //                selectedInstitute?.let {
@@ -671,88 +673,6 @@
 //        Log.e("PDFCreation", "Error while saving PDF: ${e.message}")
 //    }
 //}
-//
-//@Composable
-//fun LoadingScreen(gen: Int, level: Int) {
-//    Box(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .background(Color.White)
-//            .padding(vertical = 100.dp)
-//            .zIndex(10f),
-//        contentAlignment = Alignment.Center // Center the content
-//    ) {
-//        Column(
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.Center,
-//            modifier = Modifier.padding(16.dp)
-//        ) {
-//            CircularProgressIndicator(
-//                modifier = Modifier
-//                    .padding(bottom = 24.dp)
-//                    .size(50.dp), // Size of the progress indicator
-//                color = colorResource(id = R.color.buttonLightPale) // Progress indicator color
-//            )
-//
-//            Text(
-//                text = "Timetables: ${gen * level} / ${level * level * 10}",
-//                modifier = Modifier
-//                    .padding(bottom = 10.dp),
-//                fontSize = 18.sp,
-//                color = Color.Black
-//            )
-//
-//            Card(
-//                shape = RoundedCornerShape(8.dp),
-//                elevation = 4.dp,
-//                backgroundColor = Color(0xFFF0F0F0),
-//                modifier = Modifier.padding(16.dp)
-//            ) {
-//                Column(
-//                    horizontalAlignment = Alignment.CenterHorizontally,
-//                    verticalArrangement = Arrangement.Center,
-//                    modifier = Modifier.padding(16.dp)
-//                ) {
-//                    Text(
-//                        text = "Notes:",
-//                        fontSize = 20.sp,
-//                        textAlign = TextAlign.Center,
-//                        color = Color.Gray,
-//                        modifier = Modifier.padding(bottom = 8.dp)
-//                    )
-//                    Text(
-//                        text = "Algo complexity: Higher the value = More Time = Better Timetable",
-//                        textAlign = TextAlign.Center,
-//                        color = Color.Gray,
-//                        fontSize = 16.sp,
-//                        modifier = Modifier.padding(bottom = 8.dp),
-//                    )
-//                    Text(
-//                        text = "As your timetable number grows, try increasing the algo complexity to get a better non-overlapping teachers' timetable.",
-//                        textAlign = TextAlign.Center,
-//                        color = Color.Gray,
-//                        fontSize = 16.sp,
-//                        modifier = Modifier.padding(bottom = 8.dp),
-//                    )
-//                    Text(
-//                        text = "Download and edit the Excel sheet for a perfect timetable.",
-//                        textAlign = TextAlign.Center,
-//                        color = Color.Gray,
-//                        fontSize = 16.sp,
-//                        modifier = Modifier.padding(bottom = 8.dp),
-//                    )
-//                    Text(
-//                        text = "Keep a copy of Institute input text in WhatsApp or Notes to reuse it in the future.",
-//                        textAlign = TextAlign.Center,
-//                        color = Color.Gray,
-//                        fontSize = 16.sp,
-//                        modifier = Modifier.padding(bottom = 8.dp),
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}
 //@Composable
 //fun LoadingScreen(gen: Int, level: Int) {
 //    Box(
@@ -783,7 +703,7 @@
 //            )
 //            Text(
 //                text = "Notes:",
-//
+//                fontSize = FontSizes.body,
 //                textAlign = TextAlign.Center,
 //                color = Color.Gray,
 //                modifier = Modifier.padding(bottom = 4.dp)
@@ -792,21 +712,21 @@
 //                text = "Algo complexity: Higher the value = More Time = Better Timetable",
 //                textAlign = TextAlign.Center,
 //                color = Color.Gray,
-//
+//                fontSize = FontSizes.body,
 //                modifier = Modifier.padding(bottom = 4.dp),
 //            )
 //            Text(
 //                text = "As your timetable number grows try increase the algo complexity to get better non-overlapping teachers timetable",
 //                textAlign = TextAlign.Center,
 //                color = Color.Gray,
-//
+//                fontSize = FontSizes.body,
 //                modifier = Modifier.padding(bottom = 4.dp),
 //            )
 //            Text(
 //                text = "Download and edit the Excel sheet for a Perfect Timetable",
 //                textAlign = TextAlign.Center,
 //                color = Color.Gray,
-//
+////                fontSize = FontSizes.body,
 //                modifier = Modifier.padding(bottom = 4.dp),
 //            )
 //
@@ -814,7 +734,7 @@
 //                text = "Keep a copy of Institue input text in whatsapp / notes to reuse it in future",
 //                textAlign = TextAlign.Center,
 //                color = Color.Gray,
-//
+////                fontSize = FontSizes.body,
 //                modifier = Modifier.padding(bottom = 16.dp),
 //            )
 //        }
@@ -825,7 +745,7 @@
 //// Coroutine function to create timetable asynchronously
 //@OptIn(DelicateCoroutinesApi::class)
 //fun createTimetableAsync(
-//    selectedInstitute: Institute,
+//    selectedInstitute: School,
 //    className: String,
 //    section: String,
 //    subPeriodsPerWeek: Map<String, Int>,
@@ -851,7 +771,7 @@
 //
 //@Composable
 //fun SubjectSelection(
-//    selectedInstitute: Institute, className: String, subPeriodsPerWeek: Map<String, Int>,
+//    selectedInstitute: School, className: String, subPeriodsPerWeek: Map<String, Int>,
 //    updateSubPeriods: (subject: String, periods: Int) -> Unit
 //) {
 //    val visibleSubjects: MutableSet<String> = mutableSetOf()
@@ -866,7 +786,7 @@
 //        Column {
 //            Text(
 //                text = "No Valid Classname given",
-//
+//                fontSize = FontSizes.subtitle,
 //            )
 //        }
 //    } else {
@@ -881,7 +801,7 @@
 //                ) {
 //                    Text(
 //                        text = subject,
-//
+//                        fontSize = FontSizes.body,
 //                        modifier = Modifier.weight(1f)
 //                    )
 //                    OutlinedTextField(
@@ -898,7 +818,7 @@
 //                        label = {
 //                            Text(
 //                                "Periods/Week",
-//
+//                                fontSize = FontSizes.body,
 //                            )
 //                        },
 //                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

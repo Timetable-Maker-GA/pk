@@ -1,26 +1,26 @@
-package com.example.ttmaker.classes
-
-import android.util.Log
-import com.example.ttmaker.model.TeacherInfo
-import kotlin.random.Random
-
-
-data class School(
-    val name: String,
-    val teachers: List<TeacherInfo>,
-    val subjects: List<String>,
-//    val allTimetables: MutableList<Timetable> = mutableListOf(),
-
-//    val allTimetables: MutableList<Timetable> = mutableListOf()
-    val allTimetables: List<Timetable> = listOf(),
-    val DAYS: Int,
-    val HOURS: Int,
-    val POPULATION_SIZE: Int,
-    val GENERATIONS: Int,
-//    val id: String,
-    val createdAt: Long
-) {
-
+//package com.example.ttmaker.classes
+//
+//import android.util.Log
+//import com.example.ttmaker.model.TeacherInfo
+//import kotlin.random.Random
+//
+//
+//data class School(
+//    val name: String,
+//    val teachers: List<TeacherInfo>,
+//    val subjects: List<String>,
+////    val allTimetables: MutableList<Timetable> = mutableListOf(),
+//
+////    val allTimetables: MutableList<Timetable> = mutableListOf()
+//    val allTimetables: List<Timetable> = listOf(),
+//    val DAYS: Int,
+//    val HOURS: Int,
+//    val POPULATION_SIZE: Int,
+//    val GENERATIONS: Int,
+////    val id: String,
+//    val createdAt: Long
+//) {
+//
 //    fun createTimetable(className: String, section: String, subPeriodsPerWeek: Map<String, Int>, createdAt: Long,
 //                        level: Int,
 //                        currentGeneration: Int,
@@ -113,7 +113,7 @@ data class School(
 //            child.classTT[day][hour] = newSubject to (newTeacher ?: "")
 //        }
 //    }
-
+//
 //    private fun crossOver2(parent1: Timetable, parent2: Timetable): Timetable {
 //        val random = Random.Default
 //        val periodCrossOverPoint = random.nextInt(HOURS)
@@ -129,4 +129,5 @@ data class School(
 //        }
 //        return child
 //    }
-}
+//
+//}

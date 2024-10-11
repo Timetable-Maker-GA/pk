@@ -1,258 +1,236 @@
 package com.example.ttmaker.presentation.addTimeTable
 
-import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ttmaker.MainActivity
-import com.example.ttmaker.ManropeFontFamily
-import com.example.ttmaker.SchoolActivity
-import com.example.ui.theme.manrope
+//import com.example.ttmaker.R
+import com.example.ttmaker.TTMakerApplication
+import com.example.ttmaker.adsContainer.InterstitialAdContainerEXCEL
+import com.example.ttmaker.adsContainer.InterstitialAdContainerPDF
+import com.example.ttmaker.presentation.addTimeTable.components.LoadingScreen
+
+//import com.example.ttmaker.presentation.addTimeTable.components.DisplayTimetables
+//import com.example.ttmaker.presentation.addTimeTable.components.SubjectSelection
+//import com.example.ttmaker.presentation.addTimeTable.components.LoadingScreen
+//import com.example.ttmaker.util.saveAsExcel
+//import com.example.ttmaker.util.saveAsPDF
+import androidx.compose.material3.OutlinedTextField
+import com.example.ttmaker.presentation.addTimeTable.components.DisplayTimetables
+import com.example.ttmaker.presentation.addTimeTable.components.SubjectSelection
 import com.ntech.ttmaker.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTimeTableScreen(
-    schoolId : Int
+    schoolId: Int
 ) {
-    val context = LocalContext.current // Get the context
+    val context = LocalContext.current
+    val scrollState = rememberScrollState()
+    val app = context.applicationContext as TTMakerApplication
+    val vm: AddTimeTableViewModel = viewModel(factory = AddTimeTableViewModelFactory(app.schoolRepository))
 
-    Scaffold(topBar = {
-        TopAppBar(
-            colors = TopAppBarDefaults.topAppBarColors().copy(
-                containerColor = Color.Transparent
-            ),
-            title = { },
-            navigationIcon = {
-                Box(modifier = Modifier
-                    .padding(16.dp)
-                    .clip(CircleShape)
-                    .background(Color.White)
-                    .clickable {
-                        // Navigate to AddSchoolScreen
-                    }) {
-                    Icon(
-                        Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = null,
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp.dp
+
+    val createFileLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/pdf")
+    ) { uri: Uri? ->
+        uri?.let {
+            InterstitialAdContainerPDF(context as MainActivity)
+                vm.saveAsPDF(context, it)
+        }
+    }
+
+    val createFileLauncherExcel = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    ) { uri: Uri? ->
+        uri?.let {
+            InterstitialAdContainerEXCEL(context as MainActivity)
+                vm.saveAsExcel(context, it)
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(screenWidth * 0.02f)
+            .verticalScroll(scrollState)
+            .background(Color.White)
+    ) {
+        if (vm.isCreating.value) {
+//        if (vm.isCreating.value)
+            LoadingScreen(vm.gen.value, vm.level.value.toInt(),
+                population = vm.selectedSchool.value!!.POPULATION_SIZE,
+                generation = vm.selectedSchool.value!!.GENERATIONS)
+        } else {
+            Column {
+                Text(
+                    text = "Select Institute",
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+//                Button(onClick = {vm.updateIsCreating(!vm.isCreating.value)}) {
+//                    Text(text = "CHANGE LOAD")
+//                }
+                Box {
+                    Text(
+                        text = vm.selectedSchool.value?.name ?: "Choose an institute",
                         modifier = Modifier
-                            .clickable {
-                                // Create an Intent to launch SchoolActivity and pass the school ID
-                    val intent = Intent(context, MainActivity::class.java).apply {
-//                        putExtra("SCHOOL_ID", school.id) // Pass the school ID (ensure you have this field in SchoolBasicInfo)
-                    }
-                    context.startActivity(intent) // Start the activity
-
-                            }
-                            .clip(CircleShape)
+                            .fillMaxWidth()
+                            .clickable { vm.updateExpanded(true) }
+                            .background(Color.LightGray)
                             .padding(16.dp)
-                            .clip(CircleShape),
+                    )
+                    DropdownMenu(
+                        expanded = vm.expanded.value,
+                        onDismissRequest = { vm.updateExpanded(false) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        vm.schoolList.value.forEach { school ->
+                            DropdownMenuItem(
+                                text = { Text(school.name) },
+                                onClick = {
+                                    vm.updateSelectedSchool(school.id)
+                                    vm.updateExpanded(false)
+                                }
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 0.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    OutlinedTextField(
+                        value = vm.className.value, // Access the value of className
+                        onValueChange = { vm.updateClassName(it) }, // Update the className when text changes
+                        label = { Text("Class No") }, // Set the label for the field
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(vertical = 4.dp)
+                    )
+
+                    OutlinedTextField(
+                        value = vm.section.value, // Access the value of section
+                        onValueChange = { vm.updateSection(it) }, // Update the section when text changes
+                        label = { Text("Section") }, // Set the label for the field
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(vertical = 4.dp)
+                    )
+
+                }
+
+                val totalPeriodsGiven = vm.subPeriodsPerWeek.value.values.sum()
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column {
+                        Text(
+                            text = "Complexity Non Linear: ${vm.level.value.toInt()}",
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(text = "(200 = 2min & 600 = 18min)")
+                    }
+                    Slider(
+                        value = vm.level.value,
+                        onValueChange = { vm.updateLevel(it) },
+                        valueRange = 1f..10f,
+                        steps = 10
                     )
                 }
 
-            },
-        )
-    }, containerColor = Color(0xFFF2F3F4), content = { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .padding(16.dp)
-        ) {
-//            TimeTableForm(modifier = Modifier.padding(innerPadding))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    Button(
+                        onClick = {
+                            vm.selectedSchool.value?.let {
+                                createFileLauncher.launch(it.name + "_Report.pdf")
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.buttonLightHeavy))
+                    ) {
+                        Text("Save as PDF")
+                    }
+
+                    Button(
+                        onClick = {
+                            vm.selectedSchool.value?.let {
+                                createFileLauncherExcel.launch(it.name + "_Report.xlsx")
+                            }
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.buttonLightHeavy))
+                    ) {
+                        Text("Save as Excel")
+                    }
+                }
+
+                Text(
+                    text = "Subjects - Periods per Week: $totalPeriodsGiven / ${(vm.selectedSchool.value?.HOURS ?: 0) * (vm.selectedSchool.value?.DAYS ?: 0)}",
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    thickness = 1.dp,
+                    color = Color.Gray
+                )
+
+                if (vm.selectedSchool.value == null) {
+                    Text(text = "Select Institute First!!!")
+                }
+
+                vm.selectedSchool.value?.let {
+                    SubjectSelection(it, vm.className.value, vm.subPeriodsPerWeek.value, updateSubPeriods = { key, value -> vm.updateSubPeriodsPerWeek(key, value) })
+                    DisplayTimetables(it.allTimetables)
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Button(
+                        onClick = {
+
+//                            vm.updateIsCreating(!vm.isCreating.value)
+                           vm.createTT(context)
+
+                        },
+                        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.buttonLightHeavy)),
+                        modifier = Modifier.padding(vertical = 16.dp)
+                    ) {
+                        Text("Create Timetable")
+                    }
+                }
+//            }
         }
-
     }
-
-    )
-}
-
-
-data class ClassTimeTable(
-    val school: String, val classId: String, val section: String, val className: String
-)
-
-//@Composable
-//fun TimeTableForm(
-//    modifier: Modifier
-//) {
-//                    DropdownMenu(
-//                        expanded = expandedClassList,
-//                        onDismissRequest = { expandedClassList = false },
-//                        scrollState = scrollState,
-//                        modifier = Modifier
-//                            .clip(
-//                                RoundedCornerShape(16.dp)
-//                            )
-//                            .background(Color.White),
-//
-//                        ) {
-//                        classList.forEach { it ->
-//                            DropdownMenuItem(text = {
-//                                Text(
-//                                    text = it.className,
-//                                    style = MaterialTheme.typography.titleMedium,
-//                                    color = Color.Black,
-//                                    fontFamily = manrope
-//                                )
-//                            }, onClick = {
-//                                schoolTimeTable.value =
-//                                    schoolTimeTable.value.copy(className = it.className)
-//
-//                                expandedClassList = false
-//                            })
-//                        }
-//
-//                    }
-//                    LaunchedEffect(expandedClassList) {
-//                        if (expandedClassList) {
-//                            scrollState.scrollTo(scrollState.maxValue)
-//                        }
-//                    }
-//                }
-//            }
-//            Spacer(modifier = Modifier.width(16.dp))
-//            Column(
-//                modifier = Modifier
-//                    .weight(0.5f)
-//                    .height(100.dp)
-//            ) {
-//                Text(
-//                    text = "Select Section",
-//                    style = MaterialTheme.typography.titleMedium,
-//                    color = Color.Black,
-//                    fontFamily = manrope
-//                )
-//                Spacer(modifier = Modifier.height(8.dp))
-//                Box(
-//                    modifier = Modifier
-//                        .weight(0.5f)
-//                        .wrapContentSize(Alignment.TopStart)
-//                        .clip(RoundedCornerShape(16.dp))
-//
-//                ) {
-//
-//                    Text(text = schoolTimeTable.value.section,
-//                        modifier = Modifier
-//                            .clickable { expandedSectionList = true }
-//                            .clip(RoundedCornerShape(16.dp))
-//                            .background(Color.White)
-//                            .fillMaxWidth()
-//                            .padding(16.dp),
-//                        fontSize = 16.sp,
-//                        fontFamily = ManropeFontFamily,
-//                        color = Color.Black)
-//                    DropdownMenu(
-//                        expanded = expandedSectionList,
-//                        onDismissRequest = { expandedSectionList = false },
-//                        scrollState = scrollState,
-//                        modifier = Modifier
-//                            .clip(
-//                                RoundedCornerShape(16.dp)
-//                            )
-//                            .background(Color.White),
-//
-//                        ) {
-//                        sectionList.forEach { it ->
-//                            DropdownMenuItem(text = {
-//                                Text(
-//                                    text = it,
-//                                    style = MaterialTheme.typography.titleMedium,
-//                                    color = Color.Black,
-//                                    fontFamily = manrope
-//                                )
-//                            }, onClick = {
-//                                schoolTimeTable.value = schoolTimeTable.value.copy(section = it)
-//                                expandedSectionList = false
-//                            })
-//                        }
-//
-//                    }
-//                    LaunchedEffect(expandedSectionList) {
-//                        if (expandedSectionList) {
-//                            scrollState.scrollTo(scrollState.maxValue)
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        Spacer(modifier = Modifier.height(16.dp))
-//
-//        Row(
-//            modifier = Modifier
-//                .wrapContentHeight()
-//                .fillMaxWidth()
-//                .clip(RoundedCornerShape(16.dp))
-//                .background(Color.White)
-//                .clickable {
-//                    navController.navigate("select_subject")
-//                }
-//                .padding(16.dp),
-//            horizontalArrangement = Arrangement.SpaceBetween
-//        ) {
-//            Text(
-//                text = "Select subjects",
-//                style = MaterialTheme.typography.bodyLarge,
-//                color = Color.Black,
-//                fontFamily = manrope
-//            )
-//            Spacer(modifier = Modifier.width(8.dp))
-//            Icon(painter = painterResource(id = R.drawable.forward), contentDescription = null)
-//        }
-//        Spacer(modifier = Modifier.height(24.dp))
-//        Button(
-//            onClick = {}, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(
-//                containerColor = Color(0xFF3165FF), contentColor = Color.White
-//            ), shape = RoundedCornerShape(16.dp)
-//        ) {
-//            Text(
-//                modifier = Modifier.padding(8.dp),
-//                text = "Add",
-//                fontFamily = manrope,
-//                style = MaterialTheme.typography.titleMedium,
-//
-//                )
-//        }
-//    }
-//}
+}}
