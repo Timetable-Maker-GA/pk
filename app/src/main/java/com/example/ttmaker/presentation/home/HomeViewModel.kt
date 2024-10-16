@@ -1,15 +1,10 @@
 package com.example.ttmaker.presentation.home
 
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.ttmaker.data.SchoolEntity
 import com.example.ttmaker.data.SchoolRepository
 import com.example.ttmaker.model.SchoolBasicInfo
 import kotlinx.coroutines.launch

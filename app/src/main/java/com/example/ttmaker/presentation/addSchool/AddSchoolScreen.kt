@@ -28,7 +28,7 @@ import com.ntech.ttmaker.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddSchoolScreen(
-    navController: NavHostController
+//    navController: NavHostController
 ) {
     var selectedTabIndex by rememberSaveable { mutableStateOf(0) }
     val scrollState = rememberScrollState()
@@ -67,7 +67,7 @@ fun AddSchoolScreen(
         }
 
         when (selectedTabIndex) {
-            0 -> TextInput(navController)
+            0 -> TextInput()
             1 -> Form()
         }
     }

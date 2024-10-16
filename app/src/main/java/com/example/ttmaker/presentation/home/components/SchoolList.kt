@@ -22,7 +22,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,13 +31,12 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.ttmaker.SchoolActivity
+import com.example.ttmaker.activity.SchoolActivity
 import com.example.ttmaker.TTMakerApplication
 import com.ntech.ttmaker.R
 //import com.example.ttmaker.R
 
 //import com.example.ttmaker.data.LocalSchoolContext
-import com.example.ttmaker.data.SchoolEntity
 import com.example.ttmaker.model.SchoolBasicInfo
 import com.example.ttmaker.presentation.home.HomeViewModel
 import com.example.ttmaker.presentation.home.HomeViewModelFactory
@@ -58,7 +56,7 @@ fun InfoCard(school: SchoolBasicInfo) {
                 Text(
                     modifier  = Modifier
                         .padding(start = 6.dp),
-                    text = "time tables",
+                    text = school.timetableCount.toString() + " time tables",
                     color = colorResource(id = R.color.textLightGrayPale)
                 )
             }
@@ -66,10 +64,6 @@ fun InfoCard(school: SchoolBasicInfo) {
                 text = school.name,
                 
             )
-//            Spacer(modifier = Modifier.height(4.dp))
-//            Text(
-//                text = school.HOURS.toString(),
-//                )
             Spacer(modifier = Modifier.height(4.dp))
 //            Text(
 //                text = "Subjects: ${school.subjects.size} | " +
@@ -130,10 +124,6 @@ fun SchoolCard(school: SchoolBasicInfo
 @Composable
 fun SchoolList(
 ) {
-    // Access the current SchoolContext from the CompositionLocal
-//    val schoolContext = LocalSchoolContext.current
-
-    // Access the application context
     val context = LocalContext.current
     val app = context.applicationContext as TTMakerApplication
     val vm: HomeViewModel = viewModel(factory = HomeViewModelFactory(app.schoolRepository))
@@ -143,7 +133,6 @@ fun SchoolList(
             .fillMaxSize()
             .background(colorResource(id = R.color.bgLight))
     ) {
-        Text(text = "YOOO: " + vm.schoolList.value?.size)
         Row(
             modifier = Modifier
                 .fillMaxWidth()

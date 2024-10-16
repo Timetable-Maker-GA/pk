@@ -1,7 +1,6 @@
 package com.example.ttmaker.presentation.addTimeTable.components
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.runtime.Composable
 
 import android.content.Context
 import android.net.Uri
@@ -38,13 +37,14 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import com.ntech.ttmaker.R
+import androidx.compose.runtime.Composable
 @Composable
 fun LoadingScreen(gen: Int, level: Int, population: Int, generation: Int) {
     Box(
@@ -60,20 +60,6 @@ fun LoadingScreen(gen: Int, level: Int, population: Int, generation: Int) {
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(16.dp)
         ) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .padding(bottom = 24.dp)
-                    .size(50.dp), // Size of the progress indicator
-                color = colorResource(id = R.color.buttonLightPale) // Progress indicator color
-            )
-//
-//            Text(
-//                text = "Timetables: ${population * level * gen} / ${population * generation * level}",
-//                modifier = Modifier
-//                    .padding(bottom = 10.dp),
-//                fontSize = 18.sp,
-//                color = Color.Black
-//            )
 
             Card(
                 shape = RoundedCornerShape(8.dp),

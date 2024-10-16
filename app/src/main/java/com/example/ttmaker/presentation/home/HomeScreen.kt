@@ -36,14 +36,14 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.ttmaker.CreateTTActivity
-import com.example.ttmaker.SchoolActivity
+import com.example.ttmaker.activity.CreateSchoolActivity
+import com.example.ttmaker.activity.CreateTTActivity
 import com.example.ttmaker.presentation.home.components.SchoolList
 import com.ntech.ttmaker.R
 
 @Composable
 fun HomeScreen(
-    navController: NavHostController,
+//    navController: NavHostController,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
@@ -122,8 +122,10 @@ fun HomeScreen(
                     },
                     onClick = {
                         expanded = false
-
-                        navController.navigate("add_school_screen")
+                        val intent = Intent(context, CreateSchoolActivity::class.java).apply {
+//                            putExtra("SCHOOL_ID", school.id) // Pass the school ID (ensure you have this field in SchoolBasicInfo)
+                        }
+                        context.startActivity(intent) // Start the activity
                     }
                 )
                 DropdownMenuItem(

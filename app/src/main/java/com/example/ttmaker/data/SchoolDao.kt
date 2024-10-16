@@ -1,12 +1,12 @@
 package com.example.ttmaker.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.ttmaker.classes.Timetable
 import com.example.ttmaker.model.SchoolBasicInfo
+import com.example.ttmaker.model.SchoolEntity
 
 
 @Dao

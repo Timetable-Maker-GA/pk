@@ -6,20 +6,13 @@ import android.net.Uri
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.ttmaker.TTMakerApplication
 import com.example.ttmaker.classes.Timetable
-import com.example.ttmaker.data.SchoolEntity
+import com.example.ttmaker.model.SchoolEntity
 import com.example.ttmaker.data.SchoolRepository
-import com.example.ttmaker.model.ClassLevel
 import com.example.ttmaker.model.SchoolBasicInfo
-import com.example.ttmaker.model.TeacherInfo
-import com.example.ttmaker.presentation.home.HomeViewModel
-import com.example.ttmaker.presentation.home.HomeViewModelFactory
 import kotlinx.coroutines.launch
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
@@ -27,17 +20,10 @@ import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.property.TextAlignment
 import com.itextpdf.layout.property.UnitValue
-import com.ntech.ttmaker.R
 //import com.example.ttmaker.R
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.OutputStream
-import java.util.Objects.isNull
 
 import org.apache.poi.ss.usermodel.*
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -63,7 +49,7 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
 
     var subPeriodsPerWeek = mutableStateOf(mapOf<String, Int>())
         private set
-    var level = mutableStateOf(5f )
+    var level = mutableStateOf(1f )
         private set
     private fun updateGen(g: Int){
         gen.value  = gen.value+1
@@ -85,12 +71,11 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
         isCreating.value = value
     }
 
-    fun updateSubPeriodsPerWeek(value: Map<String, Int>) {
-        subPeriodsPerWeek.value = value
-    }
-
     fun updateSubPeriodsPerWeek(key: String, value: Int) {
         subPeriodsPerWeek.value = subPeriodsPerWeek.value.toMutableMap().also { it[key] = value }
+    }
+    fun clearSubPeriodsPerWeek() {
+        subPeriodsPerWeek.value = emptyMap()
     }
 
     fun updateSelectedSchool(id: Int) {
@@ -98,6 +83,7 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
             selectedSchool.value = repository.getSchoolById(id) // Ensure this method is implemented in your repository
         }
     }
+
     fun updateLevel(value: Float) {
         level.value = value
     }
@@ -451,17 +437,13 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
             if (!checkTTInput(context)) return@launch
             updateIsCreating(!isCreating.value)
             Toast.makeText(context, "Creating Timetable....", Toast.LENGTH_SHORT).show()
-            delay(1000L)  // 2 seconds delay
-
-
-
+            delay(1500L)  // 2 seconds delay
             val population = mutableListOf<Timetable>()
             val random = Random.Default
             var pop_count = selectedSchool.value!!.POPULATION_SIZE * level.value
             var gen_count = selectedSchool.value!!.GENERATIONS * level.value
             Log.d("kxxk", level.toString())
             repeat(pop_count.toInt()*10) {
-                Log.d("pppppppppppppppppppppppppppp", it.toString())
                 // Initialize mutable variables
                 val tt: Timetable = Timetable(
                     className.value, section.value,
@@ -513,10 +495,9 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
             Toast.makeText(context, "Done!", Toast.LENGTH_SHORT).show()
             gen.value = 0
             updateIsCreating(!isCreating.value)
+            clearSubPeriodsPerWeek()
         }
     }
-
-
 
     private fun crossOver2(parent1: Timetable, parent2: Timetable): Timetable {
         val random = Random.Default

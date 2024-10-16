@@ -2,13 +2,13 @@ package com.example.ttmaker.presentation.addTimeTable
 
 import android.net.Uri
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -22,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.ttmaker.MainActivity
 //import com.example.ttmaker.R
 import com.example.ttmaker.TTMakerApplication
 import com.example.ttmaker.adsContainer.InterstitialAdContainerEXCEL
@@ -35,7 +34,8 @@ import com.example.ttmaker.presentation.addTimeTable.components.LoadingScreen
 //import com.example.ttmaker.util.saveAsExcel
 //import com.example.ttmaker.util.saveAsPDF
 import androidx.compose.material3.OutlinedTextField
-import com.example.ttmaker.CreateTTActivity
+import androidx.compose.ui.text.input.KeyboardType
+import com.example.ttmaker.activity.CreateTTActivity
 import com.example.ttmaker.presentation.addTimeTable.components.DisplayTimetables
 import com.example.ttmaker.presentation.addTimeTable.components.SubjectSelection
 import com.ntech.ttmaker.R
@@ -50,8 +50,8 @@ fun AddTimeTableScreen(
     val app = context.applicationContext as TTMakerApplication
     val vm: AddTimeTableViewModel = viewModel(factory = AddTimeTableViewModelFactory(app.schoolRepository))
 
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
 
     LaunchedEffect(schoolId) {
         Log.d("SCHOOL ID: ", schoolId.toString())
@@ -112,6 +112,7 @@ fun AddTimeTableScreen(
                                 text = { Text(school.name) },
                                 onClick = {
                                     vm.updateSelectedSchool(school.id)
+                                    vm.clearSubPeriodsPerWeek()
                                     vm.updateExpanded(false)
                                 }
                             )
@@ -133,9 +134,9 @@ fun AddTimeTableScreen(
                         label = { Text("Class No") }, // Set the label for the field
                         modifier = Modifier
                             .weight(1f)
-                            .padding(vertical = 4.dp)
+                            .padding(vertical = 4.dp),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     )
-
                     OutlinedTextField(
                         value = vm.section.value, // Access the value of section
                         onValueChange = { vm.updateSection(it) }, // Update the section when text changes
@@ -144,24 +145,32 @@ fun AddTimeTableScreen(
                             .weight(1f)
                             .padding(vertical = 4.dp)
                     )
-
                 }
-
                 val totalPeriodsGiven = vm.subPeriodsPerWeek.value.values.sum()
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Column {
                         Text(
-                            text = "Complexity Non Linear: ${vm.level.value.toInt()}",
-                            fontWeight = FontWeight.Bold
+                            text = "Timetable Optimization: ${vm.level.value.toInt()}",
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.labelLarge
                         )
-                        Text(text = "(200 = 2min & 600 = 18min)")
+                        Text(
+                            text = "Higher values take longer",
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                        Text(
+                            text = "but improve schedule quality",
+                            style = MaterialTheme.typography.labelMedium
+                        )
                     }
+
                     Slider(
+                        modifier = Modifier.padding(horizontal = 15.dp),
                         value = vm.level.value,
                         onValueChange = { vm.updateLevel(it) },
-                        valueRange = 1f..10f,
-                        steps = 10
+                        valueRange = 1f..5f,
+                        steps = 5
                     )
                 }
 
@@ -195,7 +204,7 @@ fun AddTimeTableScreen(
                 }
 
                 Text(
-                    text = "Subjects - Periods per Week: $totalPeriodsGiven / ${(vm.selectedSchool.value?.HOURS ?: 0) * (vm.selectedSchool.value?.DAYS ?: 0)}",
+                    text = "Allocated: $totalPeriodsGiven / ${ (vm.selectedSchool.value?.HOURS ?: 0) * (vm.selectedSchool.value?.DAYS ?: 0)} periods",
                     fontWeight = FontWeight.SemiBold,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(vertical = 4.dp)
@@ -208,11 +217,24 @@ fun AddTimeTableScreen(
                 )
 
                 if (vm.selectedSchool.value == null) {
-                    Text(text = "Select Institute First!!!")
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(screenHeight*0.2f)
+                        ,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "Start by Selecting School",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
 
                 vm.selectedSchool.value?.let {
                     SubjectSelection(it, vm.className.value, vm.subPeriodsPerWeek.value, updateSubPeriods = { key, value -> vm.updateSubPeriodsPerWeek(key, value) })
+                    HorizontalDivider(thickness = 0.5.dp, color = Color.Gray)
                     DisplayTimetables(it.allTimetables)
                 }
 

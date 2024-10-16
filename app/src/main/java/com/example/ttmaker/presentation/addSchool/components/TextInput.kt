@@ -1,6 +1,10 @@
 package com.example.ttmaker.presentation.addSchool.components
 
+//import com.example.ttmaker.data.LocalSchoolContext
+import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -22,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,10 +33,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.ttmaker.TTMakerApplication
-import com.ntech.ttmaker.R
-
-//import com.example.ttmaker.data.LocalSchoolContext
 import com.example.ttmaker.model.TeacherInfo
+import com.ntech.ttmaker.R
+import java.io.File
+import java.io.InputStream
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import com.example.ttmaker.activity.CreateTTActivity
+import com.example.ttmaker.activity.MainActivity
 
 @Composable
 fun Format() {
@@ -46,7 +53,6 @@ fun Format() {
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.height(8.dp))
-
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -129,13 +135,18 @@ fun Format() {
     }
 }
 
+@SuppressLint("Recycle")
 @Composable
-fun TextInput(    navController: NavHostController
+fun TextInput(
+//    navController: NavHostController
 ) {
     // Access the application context
     val context = LocalContext.current
+
     val app = context.applicationContext as TTMakerApplication
-    val viewModel: TextInputViewModel = viewModel(factory = TextInputViewModelFactory(app.schoolRepository))
+    val viewModel: TextInputViewModel =
+        viewModel(factory = TextInputViewModelFactory(app.schoolRepository))
+
 
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Format()
@@ -157,14 +168,18 @@ fun TextInput(    navController: NavHostController
         Text(text = viewModel.temp.value)
         Button(
             colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(id = R.color.buttonLightHeavy) // Set the button's background color
+                containerColor = colorResource(id = R.color.buttonLightHeavy)
             ),
 
             onClick = {
                 if (viewModel.txtInput.value != "") {
-                  viewModel.insertSchool()
-                    navController.navigate("home_screen")
-                }else{
+                    viewModel.insertSchool()
+//                    navController.navigate("home_screen")
+                    val intent = Intent(context, MainActivity::class.java).apply {
+//                        putExtra("from", "textInput")
+                    }
+                    context.startActivity(intent)
+                } else {
                     Toast.makeText(context, "Wrong Input..", Toast.LENGTH_LONG)
                         .show()
                 }

@@ -152,7 +152,6 @@ fun filterTeachersByClass(
         return fitness
     }
 
-
     private fun sameSubjectPeriodInWeekFitness(allTimetables: List<Timetable>, rate: Int): Int {
         var fitness = 0
         for (i in 0 until HOURS) {

@@ -25,4 +25,7 @@
     <color name="inputGrayDark">#555555</color>
     <color name="inputGrayLight">#B5B5B5</color>
 
+    <color name="inputFocused">#DFDFDF</color>
+    <color name="inputUnfocused">#E3E3E3</color>
+
 </resources>

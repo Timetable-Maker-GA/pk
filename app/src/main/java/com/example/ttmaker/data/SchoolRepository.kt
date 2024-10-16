@@ -1,8 +1,8 @@
 package com.example.ttmaker.data
 
-import androidx.lifecycle.LiveData
 import com.example.ttmaker.classes.Timetable
 import com.example.ttmaker.model.SchoolBasicInfo
+import com.example.ttmaker.model.SchoolEntity
 
 class SchoolRepository private constructor(private val schoolDao: SchoolDao) {
 

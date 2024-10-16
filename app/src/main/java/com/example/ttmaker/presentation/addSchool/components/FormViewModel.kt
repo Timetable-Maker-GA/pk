@@ -1,16 +1,12 @@
 package com.example.ttmaker.presentation.addSchool.components
 
 
-import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.ttmaker.data.SchoolEntity
+import com.example.ttmaker.model.SchoolEntity
 import com.example.ttmaker.data.SchoolRepository
-import com.example.ttmaker.model.ClassLevel
 import com.example.ttmaker.model.TeacherInfo
 import kotlinx.coroutines.launch
 
@@ -27,7 +23,6 @@ class FormViewModel(private val repository: SchoolRepository) : ViewModel() {
 
     var populationSize = mutableStateOf(100)
         private set
-
     var generations = mutableStateOf(100)
         private set
 
