@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.ttmaker.data.ImageResources.schoolImageResources
 import com.example.ttmaker.model.SchoolEntity
 import com.example.ttmaker.data.SchoolRepository
 import com.example.ttmaker.model.TeacherInfo
@@ -91,7 +92,8 @@ class FormViewModel(private val repository: SchoolRepository) : ViewModel() {
                 POPULATION_SIZE = populationSize.value, // Access the mutable state
                 GENERATIONS = generations.value, // Access the mutable state
                 createdAt = System.currentTimeMillis(), // Get the current timestamp
-                timetableCount = 0 // Initialize to 0
+                timetableCount = 0, // Initialize to 0,
+                imageResId = schoolImageResources.random()
             )
 
             // Insert the school into the repository

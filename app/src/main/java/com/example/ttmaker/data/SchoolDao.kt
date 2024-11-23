@@ -20,14 +20,12 @@ interface SchoolDao {
     @Query("SELECT * FROM schools WHERE id = :schoolId")
     suspend fun getSchoolById(schoolId: Int): SchoolEntity?
 
-    @Query("SELECT id, name, createdAt, timetableCount FROM schools")
+    @Query("SELECT id, name, createdAt, timetableCount, imageResId FROM schools")
     suspend  fun getAllSchoolsBasicInfo(): List<SchoolBasicInfo>
-
-
 
     @Query("""
         UPDATE schools 
-        SET allTimetables = :newTimetables, timetableCount = :newCount 
+        SET allTimetables = :newTimetables, timetableCount = :newCount
         WHERE id = :schoolId
     """)
     suspend fun updateTimetableAndCount(schoolId: Int, newTimetables: List<Timetable>, newCount: Int)

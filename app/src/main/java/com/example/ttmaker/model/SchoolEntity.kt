@@ -18,6 +18,6 @@ data class SchoolEntity(
     val GENERATIONS: Int,
     val createdAt: Long,
     val timetableCount: Int,
-)
 
-//    val allTimetables: MutableList<Timetable> = mutableListOf()
+    val imageResId: Int? = null
+)

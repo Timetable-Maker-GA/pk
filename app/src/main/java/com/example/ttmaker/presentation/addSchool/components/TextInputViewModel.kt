@@ -5,10 +5,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.ttmaker.data.ImageResources
+import com.example.ttmaker.data.ImageResources.schoolImageResources
 import com.example.ttmaker.model.SchoolEntity
 import com.example.ttmaker.data.SchoolRepository
 import com.example.ttmaker.model.ClassLevel
 import com.example.ttmaker.model.TeacherInfo
+import com.ntech.ttmaker.R
 import kotlinx.coroutines.launch
 
 class TextInputViewModel(private val repository: SchoolRepository) : ViewModel() {
@@ -91,13 +94,15 @@ class TextInputViewModel(private val repository: SchoolRepository) : ViewModel()
 
                 } else return@launch
             }
+
             val school = SchoolEntity(name = name, HOURS = hours.toIntOrNull() ?: 0, DAYS = days.toIntOrNull() ?: 0,
                 subjects = subjects.split(",").map { it.trim() },
                 GENERATIONS = generations,
                 POPULATION_SIZE = populationSize,
                 teachers = teachers,
                 createdAt = System.currentTimeMillis(),
-                timetableCount = 0)
+                timetableCount = 0,
+                imageResId = schoolImageResources.random())
             repository.insertSchool(school)
         }
     }
