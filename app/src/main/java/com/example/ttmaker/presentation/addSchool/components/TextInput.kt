@@ -66,6 +66,9 @@ fun Format() {
             ) {
                 Text(
                     text = """
+                Note: Do not use spaces between words, 
+                      except in case of teacher and school names.
+                      
                 InstituteName
                 
                 Days in week, hours per day
@@ -85,25 +88,9 @@ fun Format() {
                     modifier = Modifier
                         .background(colorResource(id = R.color.bgLight))
                         .padding(8.dp)
-//                        .fillMaxWidth()
                 )
             }
-//            InstituteName
-//
-//            days,hours
-//
-//            Math,Science,English
-//
-//            teacher_name
-//            sub1,sub2,sub3.....
-//            1-2,4-7,8-9..
-//
-//            teacher2_name
-//            subx,suby,subz.....
-//            3-3,4-8,3-3....
             Column(
-//                modifier = Modifier.fillMaxWidth(0.4f)
-
             ) {
 
                 Text(

@@ -43,7 +43,6 @@ import com.ntech.ttmaker.R
 
 @Composable
 fun HomeScreen(
-//    navController: NavHostController,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
@@ -74,7 +73,6 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.padding(horizontal = 8.dp),
-
                 ) {
                 Text(
                     text = "+",

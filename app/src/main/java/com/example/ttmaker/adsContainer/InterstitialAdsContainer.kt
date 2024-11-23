@@ -7,7 +7,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
 fun InterstitialAdContainerPDF(activity: Activity){
-//    AndroidView(modifier = modifier, factory = {
         InterstitialAd.load(activity,
             //real
 //            "ca-app-pub-6805995445952780/3750876158",
@@ -25,11 +24,8 @@ fun InterstitialAdContainerPDF(activity: Activity){
                     super.onAdFailedToLoad(p0)
                 }
             })
-
-//    })
 }
 fun InterstitialAdContainerEXCEL(activity: Activity){
-//    AndroidView(modifier = modifier, factory = {
     InterstitialAd.load(activity,
         //real
 //"ca-app-pub-6805995445952780/7956411136",
@@ -46,6 +42,4 @@ fun InterstitialAdContainerEXCEL(activity: Activity){
                 super.onAdFailedToLoad(p0)
             }
         })
-
-//    })
 }
