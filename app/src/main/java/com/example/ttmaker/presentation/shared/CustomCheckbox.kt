@@ -42,13 +42,3 @@ fun CustomCheckbox(
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewCustomCheckbox() {
-    var isChecked by remember { mutableStateOf(true) }
-    CustomCheckbox(
-        checked = isChecked,
-        onCheckedChange = { isChecked = it }
-    )
-}

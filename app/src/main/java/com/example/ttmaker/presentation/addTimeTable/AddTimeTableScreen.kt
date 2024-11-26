@@ -36,7 +36,7 @@ import com.example.ttmaker.presentation.addTimeTable.components.LoadingScreen
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.ttmaker.activity.CreateTTActivity
-import com.example.ttmaker.presentation.addTimeTable.components.DisplayTimetables
+import com.example.ttmaker.presentation.shared.DisplayTimetables
 import com.example.ttmaker.presentation.addTimeTable.components.SubjectSelection
 import com.ntech.ttmaker.R
 

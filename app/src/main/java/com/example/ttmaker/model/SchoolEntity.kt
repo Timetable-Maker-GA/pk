@@ -18,6 +18,5 @@ data class SchoolEntity(
     val GENERATIONS: Int,
     val createdAt: Long,
     val timetableCount: Int,
-
     val imageResId: Int? = null
 )
