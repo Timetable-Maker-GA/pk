@@ -24,7 +24,9 @@ import androidx.navigation.NavHostController
 import com.ntech.ttmaker.R
 
 @Composable
-fun HomeControls(navController: NavHostController) {
+fun HomeControls(
+
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -32,7 +34,7 @@ fun HomeControls(navController: NavHostController) {
     ) {
         Button(
             onClick = {
-                navController.navigate("add_tt_screen")
+//                navController.navigate("add_tt_screen")
             },
             modifier = Modifier
                 .clip(RoundedCornerShape(50.dp))
@@ -54,7 +56,7 @@ fun HomeControls(navController: NavHostController) {
         Spacer(modifier = Modifier.width(8.dp))
         Button(
             onClick = {
-                navController.navigate("add_school_screen")
+//                navController.navigate("add_school_screen")
             },
             modifier = Modifier
                 .clip(RoundedCornerShape(50.dp))

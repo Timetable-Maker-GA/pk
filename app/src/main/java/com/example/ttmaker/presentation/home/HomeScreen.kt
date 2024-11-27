@@ -1,5 +1,6 @@
 package com.example.ttmaker.presentation.home
 
+import Header
 import HorizontalSlider
 import android.content.Intent
 import androidx.compose.foundation.background
@@ -33,12 +34,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.ttmaker.activity.CreateSchoolActivity
 import com.example.ttmaker.activity.CreateTTActivity
+import com.example.ttmaker.presentation.home.components.HomeControls
 import com.example.ttmaker.presentation.home.components.SchoolList
+import com.example.ttmaker.presentation.home.components.TimetableList
 import com.ntech.ttmaker.R
 
 @Composable
@@ -56,9 +60,10 @@ fun HomeScreen(
                 .background(colorResource(id = R.color.bgLight)),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Header(R.drawable.school_pic)
             HorizontalSlider()
             SchoolList()
-//            TimetableList(instituteList, toTimetableCreationPageWithInstitute)
+            TimetableList()
         }
         FloatingActionButton(
             onClick = { expanded = true },

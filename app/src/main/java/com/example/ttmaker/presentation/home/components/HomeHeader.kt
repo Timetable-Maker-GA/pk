@@ -11,18 +11,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ntech.ttmaker.R
 
 @Composable
 fun Header(
-    @DrawableRes profileImage: Int, modifier: Modifier = Modifier
+    @DrawableRes profileImage: Int
 ) {
     Row(
         modifier = Modifier
@@ -32,6 +35,10 @@ fun Header(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ){
+
         Image(
             painter = painterResource(id = profileImage),
             contentDescription = null,
@@ -39,6 +46,12 @@ fun Header(
                 .size(48.dp)
                 .clip(CircleShape)
         )
+            Text(
+                modifier = Modifier.padding(start = 8.dp),
+                text = "TT Maker", style = MaterialTheme.typography.headlineSmall,
+                color = colorResource(id = R.color.headingLightBluePale),
+            )
+        }
 
         Box(
             modifier = Modifier
