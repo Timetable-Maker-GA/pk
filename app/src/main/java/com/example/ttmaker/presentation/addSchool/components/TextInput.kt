@@ -40,6 +40,7 @@ import java.io.InputStream
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.ui.Alignment
 import com.example.ttmaker.activity.CreateTTActivity
 import com.example.ttmaker.activity.MainActivity
 
@@ -48,11 +49,17 @@ fun Format() {
 
     Column {
 
+        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = "Upload text input",
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.height(8.dp))
+        Text(text = "Note: Do not use unnecessary spaces between words/number, except in case of teacher/school/subject names."
+            ,style = MaterialTheme.typography.titleMedium,
+                    color = colorResource(id = R.color.textLightGrayPale),
+        )
+
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -66,9 +73,6 @@ fun Format() {
             ) {
                 Text(
                     text = """
-                Note: Do not use spaces between words, 
-                      except in case of teacher and school names.
-                      
                 InstituteName
                 
                 Days in week, hours per day
@@ -83,7 +87,7 @@ fun Format() {
                 His/her subjects name separated by ,
                 subjects respective class range
             """.trimIndent(),
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray,
                     modifier = Modifier
                         .background(colorResource(id = R.color.bgLight))
@@ -101,15 +105,15 @@ fun Format() {
                 
                 Math,Science,Art
                 
-                Anderson
-                Math,Science
+                Mr. Anderson
+                Math,Civil Science
                 1-2,3-5
                 
                 Miller
-                Art
-                6-7
+                Art,Maths II
+                6-7,9-12
             """.trimIndent(),
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray,
                     modifier = Modifier
                         .background(colorResource(id = R.color.bgLight))
@@ -134,7 +138,6 @@ fun TextInput(
     val viewModel: TextInputViewModel =
         viewModel(factory = TextInputViewModelFactory(app.schoolRepository))
 
-
     Column(modifier = Modifier.padding(horizontal = 16.dp)) {
         Format()
 
@@ -153,6 +156,10 @@ fun TextInput(
                 .padding(vertical = 8.dp)
         )
         Text(text = viewModel.temp.value)
+    }
+    Row(modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center) {
         Button(
             colors = ButtonDefaults.buttonColors(
                 containerColor = colorResource(id = R.color.buttonLightHeavy)
