@@ -31,7 +31,7 @@ fun Header(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .height(48.dp),
+            .height(45.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -43,7 +43,7 @@ fun Header(
             painter = painterResource(id = profileImage),
             contentDescription = null,
             modifier = Modifier
-                .size(48.dp)
+                .size(45.dp)
                 .clip(CircleShape)
         )
             Text(
@@ -55,12 +55,10 @@ fun Header(
 
         Box(
             modifier = Modifier
-                .width(48.dp)
-                .height(48.dp)
+                .width(45.dp)
+                .height(45.dp)
                 .clip(CircleShape)
                 .background(color = Color.White), contentAlignment = Alignment.Center
-
-
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.notification),

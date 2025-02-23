@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -37,9 +37,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ttmaker.TTMakerApplication
 import com.example.ttmaker.activity.CreateTTActivity
 import com.example.ttmaker.model.SchoolEntity
-import com.example.ttmaker.presentation.shared.DisplayTimetables
 import com.example.ttmaker.presentation.shared.TimetableCard
 import com.ntech.ttmaker.R
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun SchoolScreen(id: Int) {
@@ -51,14 +52,13 @@ fun SchoolScreen(id: Int) {
         vm.fetchSchoolDetails(id)
     }
     val schoolDetails = vm.schoolDetails.collectAsState().value
+    val configuration = LocalConfiguration.current
+    val vh = configuration.screenHeightDp.dp
 
     MaterialTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-        ) {
+        Surface(modifier = Modifier.fillMaxSize()) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
@@ -68,35 +68,40 @@ fun SchoolScreen(id: Int) {
                         text = school.name,
                         style = MaterialTheme.typography.headlineMedium,
                         color = colorResource(id = R.color.headingLightBlueHeavy),
+                        modifier = Modifier.padding(top = 16.dp)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    val schoolDetailsState = vm.schoolDetails.collectAsState(initial = null)
-
-
-                    // Scrollable Top + Middle Section
+//                    LazyColumn(
+//                        modifier = Modifier.weight(1f).height(vh * 0.5f)
+//                    ) {
+//                        item {
+//                            // School Basic Info Card
+//                            SchoolBasicInfoCard(school)
+//                        }
+//                    }
+                    // Use LazyColumn for scrollable content (Basic Info & Timetables)
                     LazyColumn(
-                        modifier = Modifier.weight(1f) // Take remaining space
+                        modifier = Modifier.weight(1f)
                     ) {
                         item {
-                            // Top Section: BASIC INFO
-                            BasicInfo(school = school)
+                            // School Basic Info Card
+                            SchoolBasicInfoCard(school)
                         }
                         item {
-                            Spacer(modifier = Modifier.height(8.dp)) // Add spacing
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
-                        // Middle Section: Timetables
-                        schoolDetailsState.value?.let { schoolDetails ->
-                            val sortedTimetables =
-                                schoolDetails.allTimetables.sortedByDescending { it.createdAt }
-                            items(sortedTimetables) { timetable ->
-                                TimetableCard(timetable)
-                            }
-
+                        item {
+                            Spacer(modifier = Modifier.height(8.dp))
+                        }
+                        // Display Timetables (sorted by createdAt)
+                        val sortedTimetables = school.allTimetables.sortedByDescending { it.createdAt }
+                        items(sortedTimetables) { timetable ->
+                            TimetableCard(timetable)
                         }
                     }
 
-                    // Bottom Section: Button
+                    // Bottom Section: Button to Create New Timetable
                     Button(
                         onClick = {
                             val intent = Intent(context, CreateTTActivity::class.java).apply {
@@ -105,12 +110,14 @@ fun SchoolScreen(id: Int) {
                             context.startActivity(intent)
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.buttonLightHeavy)),
-
-                        ) {
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
                         Text(
                             text = "Create Timetable",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = Color.White // Set text color to white for contrast
+                            color = Color.White
                         )
                     }
                 }
@@ -119,56 +126,37 @@ fun SchoolScreen(id: Int) {
     }
 }
 
-
 @Composable
-fun BasicInfo(school: SchoolEntity) {
-    // School Details Section
+fun SchoolBasicInfoCard(school: SchoolEntity) {
     Card(
-        shape = RoundedCornerShape(16.dp),
+        shape = MaterialTheme.shapes.medium,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp), // Outer padding around the card
-        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.bgDark)),
-//        elevation = 8.dp // Elevation to make the card pop
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.bgDark))
     ) {
-        Column(
-            modifier = Modifier
-                .padding(20.dp) // Inner padding for better spacing
-                .fillMaxWidth()
-        ) {
-            // Teachers Information
+        Column(modifier = Modifier.padding(16.dp)) {
+            // Teacher Section
             Text(
-                text = "Teachers (${school.teachers.size}):",
-                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold), // Bold title
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 8.dp)
+                text = "Teachers & Subjects",
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                color = colorResource(id = R.color.headingLightBlueHeavy)
             )
-            Text(
-                text = school.teachers.joinToString(", ") { teacher -> teacher.name },
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
+            Spacer(modifier = Modifier.height(8.dp))
+            // List all teachers with details:
+            school.teachers.forEach { teacher ->
+                TeacherInfoItem(teacher)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
-            // Subjects Information
+            Spacer(modifier = Modifier.height(16.dp))
+            // School Summary Info
             Text(
-                text = "Subjects (${school.subjects.size}):",
-                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 8.dp)
+                text = "School Timetable Info",
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                color = colorResource(id = R.color.headingLightBlueHeavy)
             )
-            Text(
-                text = school.subjects.joinToString(", "),
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-
-            // Timetable Information
-            Text(
-                text = "Timetable Info:",
-                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Total Timetables: ${school.timetableCount}",
                 style = MaterialTheme.typography.bodyMedium
@@ -178,98 +166,60 @@ fun BasicInfo(school: SchoolEntity) {
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "Population Size: ${school.POPULATION_SIZE}, Generations: ${school.GENERATIONS}",
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
+                text = "Population: ${school.POPULATION_SIZE}, Generations: ${school.GENERATIONS}",
+                style = MaterialTheme.typography.bodyMedium
             )
-
-            // Created At Information
+            Spacer(modifier = Modifier.height(8.dp))
             val createdAtFormatted = remember {
-                java.text.SimpleDateFormat(
-                    "dd MMM yyyy",
-                    java.util.Locale.getDefault()
-                ).format(java.util.Date(school.createdAt))
+                SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(school.createdAt)
             }
             Text(
                 text = "Created At: $createdAtFormatted",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.padding(top = 8.dp)
+//                color = colorResource(id = R.color.headingLightBlueHeavy)
             )
         }
     }
 }
 
 
-
-//@Composable
-//fun SchoolScreen(id: Int) {
-//    val context = LocalContext.current
-//    val app = context.applicationContext as TTMakerApplication
-//    val vm: SchoolViewModel = viewModel(factory = SchoolViewModelFactory(app.schoolRepository))
-//
-//    LaunchedEffect(id) {
-//        vm.fetchSchoolDetails(id)
-//    }
-//    val schoolDetails = vm.schoolDetails.collectAsState().value
-//
-//    MaterialTheme {
-//        Surface(
-//            modifier = Modifier.fillMaxSize(),
-//        ) {
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .padding(16.dp),
-//                horizontalAlignment = Alignment.CenterHorizontally,
-//                verticalArrangement = Arrangement.SpaceBetween
-//            ) {
-//                schoolDetails?.let { school ->
-//                    // School Header
-//                    Text(
-//                        text = school.name,
-//                        style = MaterialTheme.typography.headlineMedium,
-//                        color = colorResource(id = R.color.headingLightBlueHeavy),
-//                        modifier = Modifier.padding(bottom = 16.dp)
-//                    )
-//
-//
-//                    val schoolDetailsState = vm.schoolDetails.collectAsState(initial = null)
-//                    // Use the collected state
-//                    Column(
-//
-//                        modifier = Modifier
-//                            .verticalScroll(rememberScrollState()) // Enable vertical scrolling
-//                            .height((LocalConfiguration.current.screenHeightDp * 0.5).dp) // Set height to 40% of screen height
-//                    ) {
-//                        BasicInfo(school = school)
-//                        schoolDetailsState.value?.let { schoolDetails ->
-//                            DisplayTimetables(allTimetables = schoolDetails.allTimetables)
-//                        }
-//                    }
-//                    // Button to Create Timetable
-//                    Button(
-//                        onClick = {
-//                            val intent = Intent(context, CreateTTActivity::class.java).apply {
-//                                putExtra("SCHOOL_ID", id)
-//                            }
-//                            context.startActivity(intent)
-//                        },
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .height(48.dp),
-//                        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.buttonLightHeavy)),
-//
-//                        ) {
-//                        Text(
-//                            text = "Create Timetable",
-//                            style = MaterialTheme.typography.bodyMedium,
-//                            color = Color.White // Set text color to white for contrast
-//                        )
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
-
+@Composable
+fun TeacherInfoItem(teacher: com.example.ttmaker.model.TeacherInfo) {
+    // Card or simple Column layout for teacher info
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.LightGray.copy(alpha = 0.2f))
+            .padding(8.dp)
+    ) {
+        // Teacher Name
+        Text(
+            text = teacher.name,
+            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+            color = MaterialTheme.colorScheme.onBackground
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        // Subjects they teach
+        Text(
+            text = "Subjects: ${teacher.subjects.joinToString(", ")}",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onBackground
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        // Class Levels
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "Class Levels: ",
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+//                        color = colorResource(id = R.color.headingLightBlueHeavy)
+            )
+            // Each class level displayed as "start - end"
+            val classLevelsText = teacher.classLevels.joinToString { "${it.start}-${it.end}" }
+            Text(
+                text = classLevelsText,
+                style = MaterialTheme.typography.bodyMedium,
+//                color = colorResource(id = R.color.headingLightBluePale)
+            )
+        }
+    }
+}

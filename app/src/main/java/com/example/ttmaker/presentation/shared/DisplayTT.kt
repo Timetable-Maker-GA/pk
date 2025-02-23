@@ -170,14 +170,14 @@ fun TableDisplay(classTT: Array<Array<Pair<String, String>>>, screenWidth: Dp, D
             Text(
                 text = "Day/P->",
                 modifier = Modifier.width(columnWidth),
-                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                 textAlign = TextAlign.Center
             )
             for (period in 1..HOURS) {
                 Text(
                     text = "$period",
                     modifier = Modifier.width(columnWidth),
-                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                     textAlign = TextAlign.Center,
                 )
             }
@@ -194,7 +194,7 @@ fun TableDisplay(classTT: Array<Array<Pair<String, String>>>, screenWidth: Dp, D
                 Text(
                     text = "${day + 1}",
                     modifier = Modifier.width(columnWidth),
-                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Bold),
                     textAlign = TextAlign.Center
                 )
                 for (period in classTT[day].indices) {
@@ -207,7 +207,7 @@ fun TableDisplay(classTT: Array<Array<Pair<String, String>>>, screenWidth: Dp, D
                     Text(
                         text = subject,
                         modifier = Modifier.width(columnWidth),
-                        style = MaterialTheme.typography.bodySmall,
+                        style = MaterialTheme.typography.labelSmall,
                         textAlign = TextAlign.Center
                     )
                 }
