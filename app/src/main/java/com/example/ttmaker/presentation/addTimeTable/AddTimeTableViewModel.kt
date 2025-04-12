@@ -218,7 +218,7 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
                         subjectRow.createCell(1)
                             .setCellValue("${timetable.subPeriodsPerWeek[subject]} / $count")
                         subjectRow.createCell(2)
-                            .setCellValue(timetable.chosenTeachers[subject] ?: "N/A")
+                            .setCellValue(timetable.chosenTeachers[subject] ?: "Not Assigned")
                     }
 
                     // Optional: Add some spacing between timetables

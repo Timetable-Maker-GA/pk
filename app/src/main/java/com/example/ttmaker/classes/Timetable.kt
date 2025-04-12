@@ -123,7 +123,6 @@ fun filterTeachersByClass(
         fitness += sameSubjectPerDayFitness(allTimetables, 100) // Prevents excessive repetition in a day
         fitness += sameSubjectPeriodInWeekFitness(allTimetables, 50) // Ensures balanced weekly distribution
     }
-
     private fun sameSubjectPerDayFitness(allTimetables: List<Timetable>, rate: Int): Int {
         var fitness = 0
         for (day in 0 until DAYS) {
@@ -182,7 +181,6 @@ fun filterTeachersByClass(
 
     private fun lecHoursFitness(allTimetables: List<Timetable>, rate: Int): Int {
         var fitness = 0
-
 
         // Calculate subject hours per week
         for (i in 0 until DAYS) {

@@ -170,7 +170,7 @@ fun AddTimeTableScreen(
                         value = vm.level.value,
                         onValueChange = { vm.updateLevel(it) },
                         valueRange = 1f..5f,
-                        steps = 5
+                        steps = 3
                     )
                 }
 
