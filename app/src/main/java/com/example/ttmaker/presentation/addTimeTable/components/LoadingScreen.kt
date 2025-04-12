@@ -1,5 +1,6 @@
 package com.example.ttmaker.presentation.addTimeTable.components
 
+
 import androidx.compose.foundation.layout.Box
 
 import android.content.Context
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.compose.runtime.Composable
+
 @Composable
 fun LoadingScreen(gen: Int, level: Int, population: Int, generation: Int) {
     Box(
@@ -53,14 +55,29 @@ fun LoadingScreen(gen: Int, level: Int, population: Int, generation: Int) {
             .background(Color.White)
             .padding(vertical = 100.dp)
             .zIndex(10f),
-        contentAlignment = Alignment.Center // Center the content
+        contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(16.dp)
         ) {
+            // 👇 Circular loading animation
+            CircularProgressIndicator(
+                color = Color(0xFF3F51B5),
+                strokeWidth = 4.dp,
+                modifier = Modifier.size(48.dp).padding(bottom = 16.dp)
+            )
 
+            // 👇 Optional status text
+            Text(
+                text = "Generating Timetable...",
+                color = Color.DarkGray,
+                fontSize = 18.sp,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            // Notes Card
             Card(
                 shape = RoundedCornerShape(8.dp),
                 elevation = 4.dp,
@@ -109,6 +126,74 @@ fun LoadingScreen(gen: Int, level: Int, population: Int, generation: Int) {
                     )
                 }
             }
-            }
         }
     }
+}
+
+//@Composable
+//fun LoadingScreen(gen: Int, level: Int, population: Int, generation: Int) {
+//    Box(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(Color.White)
+//            .padding(vertical = 100.dp)
+//            .zIndex(10f),
+//        contentAlignment = Alignment.Center // Center the content
+//    ) {
+//        Column(
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.Center,
+//            modifier = Modifier.padding(16.dp)
+//        ) {
+//
+//            Card(
+//                shape = RoundedCornerShape(8.dp),
+//                elevation = 4.dp,
+//                backgroundColor = Color(0xFFF0F0F0),
+//                modifier = Modifier.padding(16.dp)
+//            ) {
+//                Column(
+//                    horizontalAlignment = Alignment.CenterHorizontally,
+//                    verticalArrangement = Arrangement.Center,
+//                    modifier = Modifier.padding(16.dp)
+//                ) {
+//                    Text(
+//                        text = "Notes:",
+//                        fontSize = 20.sp,
+//                        textAlign = TextAlign.Center,
+//                        color = Color.Gray,
+//                        modifier = Modifier.padding(bottom = 8.dp)
+//                    )
+//                    Text(
+//                        text = "Algo complexity: Higher the value = More Time = Better Timetable",
+//                        textAlign = TextAlign.Center,
+//                        color = Color.Gray,
+//                        fontSize = 16.sp,
+//                        modifier = Modifier.padding(bottom = 8.dp),
+//                    )
+//                    Text(
+//                        text = "As your timetable number grows, try increasing the algo complexity to get a better non-overlapping teachers' timetable.",
+//                        textAlign = TextAlign.Center,
+//                        color = Color.Gray,
+//                        fontSize = 16.sp,
+//                        modifier = Modifier.padding(bottom = 8.dp),
+//                    )
+//                    Text(
+//                        text = "Download and edit the Excel sheet for a perfect timetable.",
+//                        textAlign = TextAlign.Center,
+//                        color = Color.Gray,
+//                        fontSize = 16.sp,
+//                        modifier = Modifier.padding(bottom = 8.dp),
+//                    )
+//                    Text(
+//                        text = "Keep a copy of Institute input text in WhatsApp or Notes to reuse it in the future.",
+//                        textAlign = TextAlign.Center,
+//                        color = Color.Gray,
+//                        fontSize = 16.sp,
+//                        modifier = Modifier.padding(bottom = 8.dp),
+//                    )
+//                }
+//            }
+//            }
+//        }
+//    }

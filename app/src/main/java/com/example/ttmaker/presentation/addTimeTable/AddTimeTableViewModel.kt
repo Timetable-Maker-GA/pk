@@ -441,7 +441,11 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
             val population = mutableListOf<Timetable>()
             val random = Random.Default
             var pop_count = selectedSchool.value!!.POPULATION_SIZE * level.value
+
+            pop_count = pop_count.coerceAtLeast(100f)
             var gen_count = selectedSchool.value!!.GENERATIONS * level.value
+
+            gen_count = gen_count.coerceAtLeast(100f)
             Log.d("kxxk", level.toString())
             repeat(pop_count.toInt()*10) {
                 // Initialize mutable variables
@@ -477,6 +481,16 @@ class AddTimeTableViewModel(private val repository: SchoolRepository) : ViewMode
 
                     child.calcFitness(selectedSchool.value!!.allTimetables)
                     newPopulation.add(child)
+                }
+                val sortedPopulation = population.sortedByDescending { it.fitness }
+
+                // Add 10 diverse individuals using (size / 10) step
+                val step = sortedPopulation.size / 10
+                for (i in 1..10) {
+                    val index = i * step - 1
+                    if (index < sortedPopulation.size) {
+                        newPopulation.add(sortedPopulation[index])
+                    }
                 }
 
                 population.clear()
