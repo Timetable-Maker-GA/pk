@@ -53,7 +53,6 @@ fun filterTeachersByClass(
         val createdAt: Long,
         var fitness : Int = 0,
         val chosenTeachers: MutableMap<String, String> = mutableMapOf(),
-
     ) {
     val classTT: Array<Array<Pair<String, String>>> = Array(DAYS) { Array(HOURS) { Pair("", "") } }
 
@@ -228,4 +227,3 @@ fun filterTeachersByClass(
     }
 
 }
-

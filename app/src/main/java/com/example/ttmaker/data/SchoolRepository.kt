@@ -25,6 +25,7 @@ class SchoolRepository private constructor(private val schoolDao: SchoolDao) {
         return schoolDao.getAllSchools()
     }
     suspend fun getSchoolById(schoolId: Int): SchoolEntity? {
+
         return schoolDao.getSchoolById(schoolId)
     }
     suspend fun getAllSchoolsBasicInfo(): List<SchoolBasicInfo> {
